@@ -66,7 +66,8 @@
     <section class="pb-20 px-4">
         <h2 class="font-rethink text-6xl font-bold">Simple Notes, <br>Happy Users</h2>
         <div>
-            
+            <i class="ri-double-quotes-l text-violet"></i>
+            <h2>What They Say About Us</h2>
         </div>
     </section>
 </body>
