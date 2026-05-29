@@ -21,7 +21,7 @@
 
 </head>
 
-<body class="bg-brand-blue font-sans antialiased" x-data="{ isLogin: true }">
+<body class="bg-brand-blue font-sans antialiased" x-data="{ isLogin: {{ request('mode') === 'register' ? 'false' : 'true' }} }">
     <div>
         {{-- Your original top card decoration --}}
         <div class="max-w-7xl mx-auto my-16 bg-white rounded-[40px] shadow-lg h-150 w-full">
@@ -34,7 +34,7 @@
 
         {{-- YOUR EXACT ORIGINAL CARD DIMENSIONS --}}
         <div
-            class="fixed inset-0 z-10 max-w-3xl mx-auto my-16 mt-32 bg-white/70 border border-white rounded-[14px] h-100 w-full overflow-hidden">
+            class="fixed inset-0 z-10 max-w-3xl mx-auto my-16 mt-32 bg-white/70 border border-white rounded-[14px] h-120 w-full overflow-hidden">
 
             <div
                 class="bg-white border-2 border-brand-purple rounded-[11px] py-3 mx-3 mt-5 flex items-center justify-center">
@@ -48,21 +48,29 @@
             <div class="relative w-full h-full">
 
                 {{-- ==================== LOGIN VIEW (EXACTLY YOUR ORIGINAL) ==================== --}}
-                <div class="absolute inset-x-0 top-0 grid grid-cols-2 mt-4 mx-10 gap-5" x-show="isLogin">
+                <div class="absolute inset-x-0 top-0 grid grid-cols-2 mt-10 mx-10 gap-5" x-show="isLogin">
                     <div class="ml-12">
                         <h1 class="leading-[1.3] font-extrabold text-8xl">Log <br><span
                                 class="text-white bg-brand-purple rounded-lg pr-6.5 px-2">in <i>!</i></span></h1>
                     </div>
 
                     <div class="mt-7">
-                        <form action="" class="flex flex-col">
+                        <form action="{{ route('login') }}" method="POST" class="flex flex-col">
+                            @csrf
                             <h2 class="font-medium">Email</h2>
-                            <input type="text" placeholder="Username"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-5 focus:ring-2 focus:ring-brand-blue">
+                            <input type="email" name="email" placeholder="Email Address"
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-5 focus:ring-2 focus:ring-brand-blue" required>
+                            @error('email')
+                                <span class="text-red-500 text-sm mb-2">{{ $message }}</span>
+                            @enderror
 
                             <h2 class="font-medium">Password</h2>
-                            <input type="password" placeholder="Password"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-6.5 focus:ring-2 focus:ring-brand-blue">
+                            <input type="password" name="password" placeholder="Password"
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-6.5 focus:ring-2 focus:ring-brand-blue" required>
+                            @error('password')
+                                <span class="text-red-500 text-sm mb-2">{{ $message }}</span>
+                            @enderror
+
                             <button type="submit"
                                 class="bg-brand-orange hover:bg-brand-orange-hover text-white font-semibold py-2 rounded-lg transition-all">Login</button>
                         </form>
@@ -73,25 +81,45 @@
                 </div>
 
                 {{-- ==================== REGISTER VIEW (MIRRORED COPY) ==================== --}}
-                <div class="absolute inset-x-0 top-0 grid grid-cols-2 mt-4 mx-10 gap-5" x-show="!isLogin" x-cloak>
-                    <div class="ml-12">
+                <div class="absolute inset-x-0 top-0 grid grid-cols-2 mt-6 mx-10 gap-5" x-show="!isLogin" x-cloak>
+                    <div class="ml-12 mt-7">
                         <h1 class="leading-[1.3] font-extrabold text-8xl">Sign <br><span
                                 class="text-white bg-brand-purple rounded-lg pr-4 px-2 pb-2">up <i>!</i></span></h1>
                     </div>
 
-                    <div class="mt-7">
-                        <form action="" class="flex flex-col">
-                            <h2 class="font-medium">Email</h2>
-                            <input type="text" placeholder="Email Address"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-5 focus:ring-2 focus:ring-brand-blue">
+                    <div class="mt-1 mb-5 pb-8">
+                        <form action="{{ route('register') }}" method="POST" class="flex flex-col">
+                            @csrf
 
-                            <h2 class="font-medium">Password</h2>
-                            <input type="password" placeholder="Create Password"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-6.5 focus:ring-2 focus:ring-brand-blue">
+                            <h2 class="font-medium text-sm">Name</h2>
+                            <input type="text" name="name" placeholder="Full Name"
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-3 focus:ring-2 focus:ring-brand-blue text-sm" required>
+                            @error('name')
+                                <span class="text-red-500 text-xs mb-2">{{ $message }}</span>
+                            @enderror
+
+                            <h2 class="font-medium text-sm">Email</h2>
+                            <input type="email" name="email" placeholder="Email Address"
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-3 focus:ring-2 focus:ring-brand-blue text-sm" required>
+                            @error('email')
+                                <span class="text-red-500 text-xs mb-2">{{ $message }}</span>
+                            @enderror
+
+                            <h2 class="font-medium text-sm">Password</h2>
+                            <input type="password" name="password" placeholder="Create Password"
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-3 focus:ring-2 focus:ring-brand-blue text-sm" required>
+                            @error('password')
+                                <span class="text-red-500 text-xs mb-2">{{ $message }}</span>
+                            @enderror
+
+                            <h2 class="font-medium text-sm">Confirm Password</h2>
+                            <input type="password" name="password_confirmation" placeholder="Confirm Password"
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none mb-4 focus:ring-2 focus:ring-brand-blue text-sm" required>
+
                             <button type="submit"
-                                class="bg-brand-orange hover:bg-brand-orange-hover text-white font-semibold py-2 rounded-lg transition-all">Register</button>
+                                class="bg-brand-orange hover:bg-brand-orange-hover text-white font-semibold py-2 rounded-lg transition-all text-sm">Register</button>
                         </form>
-                        <p class="mt-2 text-sm font-medium flex justify-center items-center text-gray-600">Already have
+                        <p class="mt-2 text-xs font-medium flex justify-center items-center text-gray-600">Already have
                             an account? <a href="#" @click.prevent="isLogin = true"
                                 class="text-brand-blue hover:underline ml-1">Log in</a></p>
                     </div>
