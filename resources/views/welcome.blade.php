@@ -21,7 +21,9 @@
         </div>
         <div class="flex space-x-2">
             <a href="{{ route('login') }}" class="bg-brand-blue text-white px-6 py-1 rounded-lg">login</a>
+            <a href="{{ route('login', ['mode' => 'register']) }}" class="bg-brand-blue text-white px-6 py-1 rounded-lg">register</a>
         </div>
+        
     </header>
 
     {{-- Hero --}}

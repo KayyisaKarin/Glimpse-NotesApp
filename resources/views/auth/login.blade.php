@@ -21,7 +21,7 @@
 
 </head>
 
-<body class="bg-brand-blue font-sans antialiased" x-data="{ isLogin: {{ request('mode') === 'register' ? 'false' : 'true' }} }">
+<body class="bg-brand-blue font-plusjakarta antialiased" x-data="{ isLogin: {{ request('mode') === 'register' ? 'false' : 'true' }} }">
     <div>
         {{-- Your original top card decoration --}}
         <div class="max-w-7xl mx-auto my-16 bg-white rounded-[40px] shadow-lg h-150 w-full">
@@ -50,7 +50,7 @@
                 {{-- ==================== LOGIN VIEW (EXACTLY YOUR ORIGINAL) ==================== --}}
                 <div class="absolute inset-x-0 top-0 grid grid-cols-2 mt-10 mx-10 gap-5" x-show="isLogin">
                     <div class="ml-12">
-                        <h1 class="leading-[1.3] font-extrabold text-8xl">Log <br><span
+                        <h1 class="leading-normal font-extrabold text-8xl">Log <br><span
                                 class="text-white bg-brand-purple rounded-lg pr-6.5 px-2">in <i>!</i></span></h1>
                     </div>
 
@@ -82,8 +82,8 @@
 
                 {{-- ==================== REGISTER VIEW (MIRRORED COPY) ==================== --}}
                 <div class="absolute inset-x-0 top-0 grid grid-cols-2 mt-6 mx-10 gap-5" x-show="!isLogin" x-cloak>
-                    <div class="ml-12 mt-7">
-                        <h1 class="leading-[1.3] font-extrabold text-8xl">Sign <br><span
+                    <div class="ml-12 mt-3">
+                        <h1 class="leading-normal font-extrabold text-8xl">Sign <br><span
                                 class="text-white bg-brand-purple rounded-lg pr-4 px-2 pb-2">up <i>!</i></span></h1>
                     </div>
 
@@ -119,7 +119,7 @@
                             <button type="submit"
                                 class="bg-brand-orange hover:bg-brand-orange-hover text-white font-semibold py-2 rounded-lg transition-all text-sm">Register</button>
                         </form>
-                        <p class="mt-2 text-xs font-medium flex justify-center items-center text-gray-600">Already have
+                        <p class="mt-2 text-sm font-medium flex justify-center items-center text-gray-600">Already have
                             an account? <a href="#" @click.prevent="isLogin = true"
                                 class="text-brand-blue hover:underline ml-1">Log in</a></p>
                     </div>

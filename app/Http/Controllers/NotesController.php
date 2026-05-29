@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category; 
 use Illuminate\Http\Request;
 
 class NotesController extends Controller
 {
-    public function index(){
-        return view('notes.index');
+    public function index()
+    {
+        $categories = Category::all();
+
+        return view('notes.index', compact('categories'));
     }
 }
