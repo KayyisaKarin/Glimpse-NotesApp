@@ -24,7 +24,7 @@
                             <span class="text-4xl font-bold block">{{ now()->format('d') }}</span>
                             <span class="text-lg opacity-80">{{ now()->format('l') }}</span>
                         </div>
-                        <button id="add-event-btn mt-4"
+                        <button id="add-event-btn"
                             class="bg-[#ff9f1c] hover:bg-[#f19719] text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer z-10">
                             + Add Event
                         </button>
@@ -121,7 +121,8 @@
                         <h3 class="bg-[#1761EC] overflow-hidden text-white font-['Rethink_Sans'] font-semibold p-4 text-xl">
                             Upcoming Events</h3>
                         <div id="event-list-wrapper" class="p-2 flex flex-col gap-2">
-                            <div class="flex gap-2 p-2 relative items-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300">
+                            <div
+                                class="flex gap-2 p-2 relative items-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300">
                                 <div class="flex flex-col">
                                     <p class="font-semibold">Ied Al-Adha</p>
                                     <span class="text-xs">Wednesday, May 27</span>
@@ -158,7 +159,8 @@
                                     </label>
                                 </form>
                             @empty
-                                <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List Yet</span>
+                                <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List
+                                    Yet</span>
                             @endforelse
                         </div>
                     </div>
@@ -180,7 +182,8 @@
                             {{-- Menghubungkan Form ke Laravel Backend --}}
                             <form action="{{ route('todo.store') }}" method="POST">
                                 @csrf
-                                <input type="text" id="new-task-input" name="title" placeholder="Enter your task here..." required autocomplete="off"
+                                <input type="text" id="new-task-input" name="title"
+                                    placeholder="Enter your task here..." required autocomplete="off"
                                     class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-5 text-base">
                                 <div class="flex justify-center">
                                     <button type="submit" id="submit-task-btn"
@@ -195,23 +198,35 @@
                     {{-- MODAL ADD EVENT --}}
                     <div id="event-modal"
                         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 invisible opacity-0 transition-all duration-300">
-                        <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-xl border border-gray-100 transition-all scale-95 duration-300"
+                        <div id="event-modal-overlay" class="absolute inset-0"></div>
+
+                        <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-xl border border-gray-100 transition-all scale-95 duration-300 z-10"
                             id="event-modal-content">
+
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-black font-bold text-2xl tracking-tight">Add New Event</h3>
-                                <button id="close-event-modal-btn"
+                                <button id="close-event-modal-btn" type="button"
                                     class="text-gray-400 hover:text-gray-600 font-bold text-sm cursor-pointer">✕</button>
                             </div>
-                            <input type="text" id="new-event-input" placeholder="Event name (e.g. Study Session)..."
-                                class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-3 text-base">
-                            <input type="text" id="event-date-input" readonly
-                                class="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-4 text-gray-600 mb-5 text-sm cursor-not-allowed">
-                            <div class="flex justify-center">
-                                <button id="submit-event-btn"
-                                    class="bg-[#ff9f1c] hover:bg-amber-600 text-white font-bold px-8 py-2.5 rounded-lg shadow-md transition-colors cursor-pointer text-sm">
-                                    Add Event
-                                </button>
-                            </div>
+
+                            <form action="{{ route('events.store') }}" method="POST">
+                                @csrf
+
+                                <input type="text" name="title" id="new-event-input" required
+                                    placeholder="Event name (e.g. Study Session)..."
+                                    class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-3 text-base">
+
+                                <input type="date" name="event_date" id="event-date-input" required
+                                    class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-2 px-4 text-gray-600 mb-5 text-sm focus:outline-none focus:border-gray-300">
+
+                                <div class="flex justify-center">
+                                    <button type="submit" id="submit-event-btn"
+                                        class="bg-[#ff9f1c] hover:bg-amber-600 text-white font-bold px-8 py-2.5 rounded-lg shadow-md transition-colors cursor-pointer text-sm">
+                                        Add Event
+                                    </button>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
 
@@ -222,30 +237,59 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('todo-modal');
-            const modalContent = document.getElementById('modal-content');
-            const openBtn = document.getElementById('add-task-btn');
-            const closeBtn = document.getElementById('close-modal-btn');
-            const overlay = document.getElementById('modal-overlay');
-
-            function openModal() {
-                modal.classList.remove('invisible', 'opacity-0');
-                modal.classList.add('visible', 'opacity-100');
-
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
-            }
-
-            function closeModal() {
-                modal.classList.remove('visible', 'opacity-100');
-                modal.classList.add('invisible', 'opacity-0');
-                modalContent.classList.remove('scale-100');
-                modalContent.classList.add('scale-95');
-            }
             
-            openBtn.addEventListener('click', openModal);
-            closeBtn.addEventListener('click', closeModal);
-            overlay.addEventListener('click', closeModal);
+            const todoModal = document.getElementById('todo-modal');
+            const todoContent = document.getElementById('modal-content');
+            const todoOpenBtn = document.getElementById('add-task-btn');
+            const todoCloseBtn = document.getElementById('close-modal-btn');
+            const todoOverlay = document.getElementById('modal-overlay');
+
+            // === 2. ELEMEN MODAL EVENT ===
+            const eventModal = document.getElementById('event-modal');
+            const eventContent = document.getElementById('event-modal-content');
+            const eventOpenBtn = document.getElementById('add-event-btn');
+            const eventCloseBtn = document.getElementById('close-event-modal-btn');
+            const eventOverlay = document.getElementById('event-modal-overlay');
+
+            // === FUNGSI MODAL TODO (DIBEDAKAN NAMANYA) ===
+            function openTodoModal() {
+                todoModal.classList.remove('invisible', 'opacity-0');
+                todoModal.classList.add('visible', 'opacity-100');
+                todoContent.classList.remove('scale-95');
+                todoContent.classList.add('scale-100');
+            }
+
+            function closeTodoModal() {
+                todoModal.classList.remove('visible', 'opacity-100');
+                todoModal.classList.add('invisible', 'opacity-0');
+                todoContent.classList.remove('scale-100');
+                todoContent.classList.add('scale-95');
+            }
+
+            // === FUNGSI MODAL EVENT (DIBEDAKAN NAMANYA) ===
+            function openEventModal() {
+                eventModal.classList.remove('invisible', 'opacity-0');
+                eventModal.classList.add('visible', 'opacity-100');
+                eventContent.classList.remove('scale-95');
+                eventContent.classList.add('scale-100');
+            }
+
+            function closeEventModal() {
+                eventModal.classList.remove('visible', 'opacity-100');
+                eventModal.classList.add('invisible', 'opacity-0');
+                eventContent.classList.remove('scale-100');
+                eventContent.classList.add('scale-95');
+            }
+
+            // modal todo
+            if (todoOpenBtn) todoOpenBtn.addEventListener('click', openTodoModal);
+            if (todoCloseBtn) todoCloseBtn.addEventListener('click', closeTodoModal);
+            if (todoOverlay) todoOverlay.addEventListener('click', closeTodoModal);
+
+            // modal event
+            if (eventOpenBtn) eventOpenBtn.addEventListener('click', openEventModal);
+            if (eventCloseBtn) eventCloseBtn.addEventListener('click', closeEventModal);
+            if (eventOverlay) eventOverlay.addEventListener('click', closeEventModal);
         });
     </script>
 @endsection

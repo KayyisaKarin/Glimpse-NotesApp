@@ -13,6 +13,8 @@ Route::middleware('auth',)->controller(DashboardController::class)->group(functi
     Route::get('/dashboard', 'index')->name('dashboard'); 
     Route::post('/dashboard/todo', 'store')->name('todo.store');
     Route::delete('/dashboard/delete/{id}', 'destroy')->name('todo.destroy');
+    Route::post('/dashboard/events', 'store')->name('events.store');
+    Route::delete('/dashboard/events/{id}', 'destroy')->name('events.destroy');
 });
 
 Route::middleware('auth')->controller(NotesController::class)->group(function ()  {

@@ -41,7 +41,7 @@
         <aside
             class="w-72 bg-white border-l min-h-screen shrink-0 font-['Plus_Jakarta_Sans'] flex flex-col justify-between">
             <div class="p-6">
-                <div class="flex items-center justify-center gap-3 mt-6 mb-12 select-none">
+                <div class="flex items-center justify-center scale-80 gap-3 mt-6 mb-12 select-none">
                     <img src="{{ asset('assets/glimpse-logo-text.png') }}" alt="Glimpse Logo">
                 </div>
 
