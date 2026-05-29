@@ -11,10 +11,14 @@ Route::get('/', function () {
 
 Route::middleware('auth',)->controller(DashboardController::class)->group(function() {
     Route::get('/dashboard', 'index')->name('dashboard'); 
+
+    // route todo
     Route::post('/dashboard/todo', 'store')->name('todo.store');
     Route::delete('/dashboard/delete/{id}', 'destroy')->name('todo.destroy');
-    Route::post('/dashboard/events', 'store')->name('events.store');
-    Route::delete('/dashboard/events/{id}', 'destroy')->name('events.destroy');
+
+    // route event
+    Route::post('/dashboard/events', 'eventStore')->name('events.store');
+    Route::delete('/dashboard/events/{id}', 'eventDestroy')->name('events.destroy');
 });
 
 Route::middleware('auth')->controller(NotesController::class)->group(function ()  {

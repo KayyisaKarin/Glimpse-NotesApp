@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Events;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 
@@ -16,11 +17,12 @@ class DashboardController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string', 
+            'date' => 'required|date', 
         ]);
         Todo::create([
             'title' => $validated['title'],
-            'is_completed' => false,
+            'date' => false,
         ]);
         
         return redirect()->route('dashboard')->with('success', 'Yeyeyey data berhasil ditambahkan!');
@@ -30,6 +32,28 @@ class DashboardController extends Controller
     {
         $todos = Todo::findOrFail($id);
         $todos->delete();
+
+        return redirect()->route('dashboard')->with('succes', 'data berhasil dihapus');
+    }
+
+    public function eventStore(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+        ]);
+        Events::create([
+            'title' => $validated['title'],
+            'date' => $validated['date'],
+        ]);
+        
+        return redirect()->route('dashboard')->with('success', 'Yeyeyey data berhasil ditambahkan!');
+    }
+
+    public function eventDestroy($id)
+    {
+        $events = Events::findOrFail($id);
+        $events->delete();
 
         return redirect()->route('dashboard')->with('succes', 'data berhasil dihapus');
     }
