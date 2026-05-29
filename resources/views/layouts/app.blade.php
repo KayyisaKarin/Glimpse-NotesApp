@@ -1,36 +1,89 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="id">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title ?? 'Glimpse Notes' }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow-sm">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="font-['Rethink_Sans']">
+    <div class="flex min-h-screen w-full">
+
+        <main class="flex-1 bg-gray-100 p-2">
+            @yield('content')
+        </main>
+
+        <aside class="w-72 bg-white border-l min-h-screen shrink-0 font-['Plus_Jakarta_Sans'] flex flex-col justify-between">
+            <div class="p-6">
+                <div class="flex items-center justify-center gap-3 mt-6 mb-12 select-none">
+                    <img src="{{ asset('assets/logo.svg') }}" alt="Glimpse Logo" class="w-10 h-10">
+                    <h1 class="text-2xl font-bold text-brand-blue">Glimpse</h1>
+                </div>
+
+                <nav class="py-8 flex flex-col gap-2">
+                    {{-- Dashboard - Using ri-dashboard-fill --}}
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 bg-[#f0f4f9] text-[#2563eb] rounded-lg font-bold text-sm transition-colors group">
+                        <i class="ri-dashboard-fill text-xl leading-none"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    {{-- Notes - Using ri-sticky-note-2-fill --}}
+                    <a href="{{ route('notes.index') }}" class="flex items-center gap-3 px-4 py-3 text-[#2563eb] hover:bg-[#f0f4f9] rounded-lg font-bold text-sm transition-colors group">
+                        <i class="ri-sticky-note-2-fill text-xl leading-none"></i>
+                        <span>Notes</span>
+                    </a>
+
+                    {{-- Activities - Using ri-grid-fill --}}
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 text-[#2563eb] hover:bg-[#f0f4f9] rounded-lg font-bold text-sm transition-colors group">
+                        <i class="ri-grid-fill text-xl leading-none"></i>
+                        <span>Activities</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="bg-[#1d63ed] p-4 text-white rounded-t-none">
+
+                <div class="flex items-center gap-3 mb-4 px-1.5 py-1">
+                    <div class="w-11 h-11 rounded-full overflow-hidden shadow-inner shrink-0">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Han Taesan" class="w-full h-full object-cover" />
                     </div>
-                </header>
-            @endisset
+                    <div class="truncate">
+                        <h3 class="text-lg font-['Plus_Jakarta_Sans'] font-semibold tracking-wide">Han Taesan</h3>
+                    </div>
+                </div>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+                {{-- Logout Button - Using ri-logout-box-r-line --}}
+                <button class="w-full bg-[#eb4343] hover:bg-red-600 active:scale-98 text-white font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-start gap-2.5 shadow-sm transition-all cursor-pointer">
+                    <i class="ri-logout-box-r-line text-base leading-none"></i>
+                    <span>Logout</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+    </div>
+</body>
+
 </html>

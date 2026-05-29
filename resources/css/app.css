@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-=======
 @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
->>>>>>> 8ce5299c97ebc283f8dfd903d526bb7592b15b3d
 @import 'tailwindcss';
 @import "remixicon/fonts/remixicon.css";
 
@@ -14,7 +10,6 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-<<<<<<< HEAD
         --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
         /* BRAND COLORS */
@@ -26,20 +21,19 @@
         --color-brand-orange: #FF9F2A;
         --color-brand-orange-hover: #e17e05;
         --color-brand-pink: #FEA4FE;
-=======
-  --font-sans:
-    Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-rethink: "Rethink Sans", sans-serif;
-  --font-plusjakarta: "Plus Jakarta Sans", sans-serif;
-  --font-playball: "Playball", cursive;
-  --color-blue: #1762EC;
-  --color-violet: #6017EC;
-  --color-yellow: #FDE047;
-  --color-green: #028037;
-  --color-pink: #FEA4FE;
-  --color-red: #EF4444;
-  --color-orange: #FF9F2A;
+
+        --font-figtree:
+        Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        --font-rethink: "Rethink Sans", sans-serif;
+        --font-playball: "Playball", cursive;
+        --color-yellow: #FDE047;
+        --color-green: #028037;
+        --color-blue: #1762EC;
+        --color-violet: #6017EC;
+        --color-pink: #FEA4FE;
+        --color-red: #EF4444;
+        --color-orange: #FF9F2A;
 }
 
 /*
@@ -58,6 +52,5 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
->>>>>>> 8ce5299c97ebc283f8dfd903d526bb7592b15b3d
 }
 
