@@ -14,14 +14,13 @@
 
     {{-- Navbar --}}
     <header
-        class="fixed z-50 w-full bg-gray-100/50 flex items-center justify-between mx-6 px-6 py-2 rounded-full shadow-xs backdrop-blur-xs">
+        class="fixed z-50 left-0 right-0 bg-gray-100/50 flex items-center justify-between mx-6 px-8 py-2 rounded-full shadow-xs backdrop-blur-xs">
         <div class="flex items-center">
             <img class="w-8" src="{{ asset('assets/Logo.png') }}" alt="Logo">
             <h1 class="font-rethink text-brand-blue text-xl font-bold pl-2">Glimpse</h1>
         </div>
         <div class="flex space-x-2">
             <a href="{{ route('login') }}" class="bg-brand-blue text-white px-6 py-1 rounded-lg">login</a>
-            <a href="#" class="bg-brand-blue text-white px-6 py-1 rounded-lg">register</a>
         </div>
     </header>
 
@@ -44,26 +43,42 @@
             <div
                 class="relative w-70 h-70 bg-white/50 border-4 border-brand-yellow rounded-2xl flex flex-col items-center justify-center text-center p-4 backdrop-blur-xs 
                 transition-all duration-500 ease-in-out hover:bg-brand-yellow group">
-                <h3 class="text-2xl font-bold text-brand-orange text-center transition-all duration-500 ease-in-out group-hover:opacity-0">Smart <br>Organization</h3>
-                <p class="absolute px-4 text-xl font-semibold text-brand-red opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">Keep your thoughts, tasks, and reminders neatly arranged without extra effort.</p>
+                <h3
+                    class="text-2xl font-bold text-brand-orange text-center transition-all duration-500 ease-in-out group-hover:opacity-0">
+                    Smart <br>Organization</h3>
+                <p
+                    class="absolute px-4 text-xl font-semibold text-brand-red opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">
+                    Keep your thoughts, tasks, and reminders neatly arranged without extra effort.</p>
             </div>
             <div
                 class="relative w-70 h-70 bg-white/50 border-4 border-brand-green rounded-2xl flex flex-col items-center justify-center text-center p-4 backdrop-blur-xs
                 transition-all duration-500 ease-in-out hover:bg-brand-green group">
-                <h3 class="text-2xl font-bold text-brand-green text-center transition-all duration-500 ease-in-out group-hover:opacity-0">Creative <br>Workspace</h3>
-                <p class="absolute px-4 text-xl font-semibold text-white opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">A colorful environment designed to make studying and planning more fun.</p>
+                <h3
+                    class="text-2xl font-bold text-brand-green text-center transition-all duration-500 ease-in-out group-hover:opacity-0">
+                    Creative <br>Workspace</h3>
+                <p
+                    class="absolute px-4 text-xl font-semibold text-white opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">
+                    A colorful environment designed to make studying and planning more fun.</p>
             </div>
             <div
                 class="relative w-70 h-70 bg-white/50 border-4 border-brand-red rounded-2xl flex flex-col items-center justify-center text-center p-4 backdrop-blur-xs
                 transition-all duration-500 ease-in-out hover:bg-brand-red group">
-                <h3 class="text-2xl font-bold text-brand-red text-center transition-all duration-500 ease-in-out group-hover:opacity-0">Distraction-Free Design</h3>
-                <p class="absolute px-4 text-xl font-semibold text-white opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">Focused layouts help you stay productive while keeping everything visually clean.</p>
+                <h3
+                    class="text-2xl font-bold text-brand-red text-center transition-all duration-500 ease-in-out group-hover:opacity-0">
+                    Distraction-Free Design</h3>
+                <p
+                    class="absolute px-4 text-xl font-semibold text-white opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">
+                    Focused layouts help you stay productive while keeping everything visually clean.</p>
             </div>
             <div
                 class="relative w-70 h-70 bg-white/50 border-4 border-brand-blue rounded-2xl flex flex-col items-center justify-center text-center p-4 backdrop-blur-xs
                 transition-all duration-500 ease-in-out hover:bg-brand-blue group">
-                <h3 class="text-2xl font-bold text-brand-purple text-center transition-all duration-500 ease-in-out group-hover:opacity-0">Flexible for Everyone</h3>
-                <p class="absolute px-4 text-xl font-semibold text-white opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">Perfect for students, creators, and anyone who wants better note organization.</p>
+                <h3
+                    class="text-2xl font-bold text-brand-purple text-center transition-all duration-500 ease-in-out group-hover:opacity-0">
+                    Flexible for Everyone</h3>
+                <p
+                    class="absolute px-4 text-xl font-semibold text-white opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">
+                    Perfect for students, creators, and anyone who wants better note organization.</p>
             </div>
         </div>
     </section>
@@ -152,11 +167,11 @@
 
     {{-- CTA & Step by step --}}
     <section class="pb-20 px-10">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 bg-brand-blue px-8 py-24 rounded-2xl space-y-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 bg-brand-blue px-10 py-24 rounded-2xl space-y-10">
             <div class="space-y-10">
                 <h3 class="font-rethink bold text-4xl text-white">We make note-taking simple, colorful, and easy to
                     enjoy every day.</h3>
-                <a href="#"
+                <a href="{{ route('dashboard') }}"
                     class="bg-brand-yellow font-medium text-lg text-center px-8 py-3 rounded-lg lg:text-left">
                     Start Now!
                 </a>
@@ -203,7 +218,8 @@
                     <i class="ri-instagram-line ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
                     <i class="ri-youtube-fill ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
                     <i class="ri-twitter-fill ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
-                    <i class="ri-facebook-circle-fill ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
+                    <i
+                        class="ri-facebook-circle-fill ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
                 </div>
             </div>
             <div>
