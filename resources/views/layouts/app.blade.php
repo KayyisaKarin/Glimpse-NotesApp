@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Glimpse Notes' }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
@@ -11,7 +12,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+    <link rel="shortcut icon" href="{{ asset('assets/Logo.png') }}" type="image/x-icon">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -74,10 +79,13 @@
                 </div>
 
                 {{-- Logout Button - Using ri-logout-box-r-line --}}
-                <button class="w-full bg-[#eb4343] hover:bg-red-600 active:scale-98 text-white font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-start gap-2.5 shadow-sm transition-all cursor-pointer">
-                    <i class="ri-logout-box-r-line text-base leading-none"></i>
-                    <span>Logout</span>
-                </button>
+                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    @csrf
+                    <button type="submit" class="w-full bg-[#eb4343] hover:bg-red-600 active:scale-98 text-white font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-start gap-2.5 shadow-sm transition-all cursor-pointer">
+                        <i class="ri-logout-box-r-line text-base leading-none"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
 
             </div>
 

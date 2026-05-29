@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +21,13 @@ Route::middleware('auth')->controller(NotesController::class)->group(function ()
     Route::get('/notes/{note}/edit', 'edit')->name('notes.edit');
     Route::put('/notes/{note}', 'update')->name('notes.update');
     Route::delete('/notes/{note}', 'destroy')->name('notes.destroy');
+});
+
+Route::middleware('auth')->controller(CategoryController::class)->group(function () {
+    Route::get('/', 'index')->name('notes.index');
+    Route::post('/categories/store', 'store')->name('categories.store');
+    Route::put('/categories/update/{id}', 'update')->name('categories.update');
+    Route::delete('/categories/destroy/{id}', 'destroy')->name('categories.destroy');
 });
 
 Route::middleware('auth')->group(function () {
