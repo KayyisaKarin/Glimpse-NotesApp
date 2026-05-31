@@ -18,6 +18,4 @@ class NotesController extends Controller
     {
         return view('notes.create');
     }
-    public function store(Request $request){}
-}
 }
