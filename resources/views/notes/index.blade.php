@@ -20,12 +20,14 @@
 
             <div class="flex items-center gap-4 shrink-0">
                 <a href="{{ route('notes.create') }}">
-                <button class="bg-brand-blue hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
-                    <i class="ri-add-line text-lg"></i> Add Note
-                </button>
+                    <button
+                        class="bg-brand-blue hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
+                        <i class="ri-add-line text-lg"></i> Add Note
+                    </button>
                 </a>
-                <button class="bg-brand-purple hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
-                    <i class="ri-add-line text-lg"></i> Add Category
+                {{-- Add Button --}}
+                <button onclick="openAddModal()" class="bg-brand-purple text-white px-6 py-3.5 rounded-xl">
+                    Add Category
                 </button>
             </div>
         </div>
