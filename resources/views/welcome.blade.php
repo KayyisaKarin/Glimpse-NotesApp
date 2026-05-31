@@ -20,8 +20,8 @@
             <h1 class="font-rethink text-brand-blue text-xl font-bold pl-2">Glimpse</h1>
         </div>
         <div class="flex space-x-2">
-            <a href="{{ route('login') }}" class="bg-brand-blue text-white px-6 py-1 rounded-lg">login</a>
-            <a href="{{ route('login', ['mode' => 'register']) }}" class="bg-brand-blue text-white px-6 py-1 rounded-lg">register</a>
+            <a href="{{ route('login') }}" class="bg-brand-blue text-white px-6 py-1 rounded-lg transition-all hover:opacity-90">login</a>
+            <a href="{{ route('login', ['mode' => 'register']) }}" class="bg-brand-blue text-white px-6 py-1 rounded-lg transition-all hover:opacity-90">register</a>
         </div>
         
     </header>
@@ -44,7 +44,7 @@
         <div class="py-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 place-items-center">
             <div
                 class="relative w-70 h-70 bg-white/50 border-4 border-brand-yellow rounded-2xl flex flex-col items-center justify-center text-center p-4 backdrop-blur-xs 
-                transition-all duration-500 ease-in-out hover:bg-brand-yellow group">
+                transition-all duration-700 ease-in-out hover:bg-brand-yellow group">
                 <h3
                     class="text-2xl font-bold text-brand-orange text-center transition-all duration-500 ease-in-out group-hover:opacity-0">
                     Smart <br>Organization</h3>
@@ -54,7 +54,7 @@
             </div>
             <div
                 class="relative w-70 h-70 bg-white/50 border-4 border-brand-green rounded-2xl flex flex-col items-center justify-center text-center p-4 backdrop-blur-xs
-                transition-all duration-500 ease-in-out hover:bg-brand-green group">
+                transition-all duration-700 ease-in-out hover:bg-brand-green group">
                 <h3
                     class="text-2xl font-bold text-brand-green text-center transition-all duration-500 ease-in-out group-hover:opacity-0">
                     Creative <br>Workspace</h3>
@@ -64,7 +64,7 @@
             </div>
             <div
                 class="relative w-70 h-70 bg-white/50 border-4 border-brand-red rounded-2xl flex flex-col items-center justify-center text-center p-4 backdrop-blur-xs
-                transition-all duration-500 ease-in-out hover:bg-brand-red group">
+                transition-all duration-700 ease-in-out hover:bg-brand-red group">
                 <h3
                     class="text-2xl font-bold text-brand-red text-center transition-all duration-500 ease-in-out group-hover:opacity-0">
                     Distraction-Free Design</h3>
@@ -74,7 +74,7 @@
             </div>
             <div
                 class="relative w-70 h-70 bg-white/50 border-4 border-brand-blue rounded-2xl flex flex-col items-center justify-center text-center p-4 backdrop-blur-xs
-                transition-all duration-500 ease-in-out hover:bg-brand-blue group">
+                transition-all duration-700 ease-in-out hover:bg-brand-blue group">
                 <h3
                     class="text-2xl font-bold text-brand-purple text-center transition-all duration-500 ease-in-out group-hover:opacity-0">
                     Flexible for Everyone</h3>
@@ -100,67 +100,75 @@
                 <div class="flex gap-5" style="width: max-content;">
                     {{-- Item --}}
                     <div
-                        class="relative w-90 h-100 bg-white/50 border-4 border-brand-pink rounded-2xl backdrop-blur-xs shadow-xs">
-                        <div class="absolute w-20 h-20 bg-black rounded-full left-1/2 -translate-x-1/2 top-4"></div>
+                        class="relative w-90 h-100 bg-white/50 border-4 border-brand-pink rounded-2xl backdrop-blur-xs shadow-xs group">
+                        <div class="absolute w-20 h-20 bg-black rounded-full left-1/2 -translate-x-1/2 top-4 transition-all duration-500 ease-in-out group-hover:-translate-y-1">
+                        <img class="w-20 h-20 rounded-full" src="" alt="">
+                        </div>
                         <div class="flex text-brand-yellow text-4xl items-center justify-center space-x-1 pt-28">
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
                         </div>
                         <p class="text-brand-purple text-center text-lg px-4 py-4">This website makes organizing my
                             school notes so much easier. The colorful design feels fun and motivates me to stay
                             productive every day.</p>
-                        <p class="text-brand-purple text-center text-xl font-semibold">Nana, Student</p>
+                        <p class="text-brand-purple text-center text-xl font-semibold transition-all duration-500 ease-in-out group-hover:text-2xl">Nana, Student</p>
                     </div>
                     {{-- Item --}}
                     <div
-                        class="relative w-90 h-100 bg-white/50 border-4 border-brand-pink rounded-2xl backdrop-blur-xs shadow-xs">
-                        <div class="absolute w-20 h-20 bg-black rounded-full left-1/2 -translate-x-1/2 top-4"></div>
+                        class="relative w-90 h-100 bg-white/50 border-4 border-brand-pink rounded-2xl backdrop-blur-xs shadow-xs group">
+                        <div class="absolute w-20 h-20 bg-black rounded-full left-1/2 -translate-x-1/2 top-4 transition-all duration-500 ease-in-out group-hover:-translate-y-1">
+                        <img class="w-20 h-20 rounded-full" src="" alt="">
+                        </div>
                         <div class="flex text-brand-yellow text-4xl items-center justify-center space-x-1 pt-28">
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
                         </div>
                         <p class="text-brand-purple text-center text-lg px-4 py-4">This website makes organizing my
                             school notes so much easier. The colorful design feels fun and motivates me to stay
                             productive every day.</p>
-                        <p class="text-brand-purple text-center text-xl font-semibold">Nana, Student</p>
+                        <p class="text-brand-purple text-center text-xl font-semibold transition-all duration-500 ease-in-out group-hover:text-2xl">Nana, Student</p>
                     </div>
                     {{-- Item --}}
                     <div
-                        class="relative w-90 h-100 bg-white/50 border-4 border-brand-pink rounded-2xl backdrop-blur-xs shadow-xs">
-                        <div class="absolute w-20 h-20 bg-black rounded-full left-1/2 -translate-x-1/2 top-4"></div>
+                        class="relative w-90 h-100 bg-white/50 border-4 border-brand-pink rounded-2xl backdrop-blur-xs shadow-xs group">
+                        <div class="absolute w-20 h-20 bg-black rounded-full left-1/2 -translate-x-1/2 top-4 transition-all duration-500 ease-in-out group-hover:-translate-y-1">
+                        <img class="w-20 h-20 rounded-full" src="" alt="">
+                        </div>
                         <div class="flex text-brand-yellow text-4xl items-center justify-center space-x-1 pt-28">
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
                         </div>
                         <p class="text-brand-purple text-center text-lg px-4 py-4">This website makes organizing my
                             school notes so much easier. The colorful design feels fun and motivates me to stay
                             productive every day.</p>
-                        <p class="text-brand-purple text-center text-xl font-semibold">Nana, Student</p>
+                        <p class="text-brand-purple text-center text-xl font-semibold transition-all duration-500 ease-in-out group-hover:text-2xl">Nana, Student</p>
                     </div>
                     {{-- Item --}}
                     <div
-                        class="relative w-90 h-100 bg-white/50 border-4 border-brand-pink rounded-2xl backdrop-blur-xs shadow-xs">
-                        <div class="absolute w-20 h-20 bg-black rounded-full left-1/2 -translate-x-1/2 top-4"></div>
+                        class="relative w-90 h-100 bg-white/50 border-4 border-brand-pink rounded-2xl backdrop-blur-xs shadow-xs group">
+                        <div class="absolute w-20 h-20 bg-black rounded-full left-1/2 -translate-x-1/2 top-4 transition-all duration-500 ease-in-out group-hover:-translate-y-1">
+                        <img class="w-20 h-20 rounded-full" src="" alt="">
+                        </div>
                         <div class="flex text-brand-yellow text-4xl items-center justify-center space-x-1 pt-28">
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
+                            <i class="ri-star-fill transition-all duration-1500 ease-in-out group-hover:rotate-360"></i>
                         </div>
                         <p class="text-brand-purple text-center text-lg px-4 py-4">This website makes organizing my
                             school notes so much easier. The colorful design feels fun and motivates me to stay
                             productive every day.</p>
-                        <p class="text-brand-purple text-center text-xl font-semibold">Nana, Student</p>
+                        <p class="text-brand-purple text-center text-xl font-semibold transition-all duration-500 ease-in-out group-hover:text-2xl">Nana, Student</p>
                     </div>
                 </div>
             </div>
@@ -173,30 +181,30 @@
             <div class="space-y-10">
                 <h3 class="font-rethink bold text-4xl text-white">We make note-taking simple, colorful, and easy to
                     enjoy every day.</h3>
-                <a href="#"
-                    class="bg-brand-yellow font-medium text-lg text-center px-8 py-3 rounded-lg lg:text-left">
+                <a href="{{ route('dashboard') }}"
+                    class="bg-brand-yellow font-medium text-lg text-center px-8 py-3 rounded-lg transition-all hover:opacity-90 lg:text-left">
                     Start Now!
                 </a>
             </div>
             <div class="space-y-10">
-                <div class="flex items-center">
-                    <i class="ri-sticky-note-add-line bg-brand-yellow px-4 py-4 text-4xl rounded-full"></i>
+                <div class="flex items-center group">
+                    <i class="ri-sticky-note-add-line bg-brand-yellow px-4 py-4 text-4xl rounded-full shadow-xs transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"></i>
                     <div class="block text-white pl-4">
-                        <h4 class="text-xl font-bold">Create Your First Note</h4>
+                        <h4 class="text-xl font-bold transition-all duration-300 ease-in-out group-hover:text-brand-yellow">Create Your First Note</h4>
                         <p>Quickly write down ideas and thoughts whenever inspiration comes.</p>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <i class="ri-folder-5-line bg-brand-yellow px-4 py-4 text-4xl rounded-full"></i>
+                <div class="flex items-center group">
+                    <i class="ri-folder-5-line bg-brand-yellow px-4 py-4 text-4xl rounded-full shadow-xs transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"></i>
                     <div class="block text-white pl-4">
-                        <h4 class="text-xl font-bold">Organize Everything</h4>
+                        <h4 class="text-xl font-bold transition-all duration-300 ease-in-out group-hover:text-brand-yellow">Organize Everything</h4>
                         <p>Sort your notes into categories to keep your workspace neat and stress-free.</p>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <i class="ri-file-edit-line bg-brand-yellow px-4 py-4 text-4xl rounded-full"></i>
+                <div class="flex items-center group">
+                    <i class="ri-file-edit-line bg-brand-yellow px-4 py-4 text-4xl rounded-full shadow-xs transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"></i>
                     <div class="block text-white pl-4">
-                        <h4 class="text-xl font-bold">Update Notes Status</h4>
+                        <h4 class="text-xl font-bold transition-all duration-300 ease-in-out group-hover:text-brand-yellow">Update Notes Status</h4>
                         <p>Track your progress by updating note statuses to manage your tasks more efficiently.</p>
                     </div>
                 </div>
@@ -212,18 +220,17 @@
                 <h1 class="font-rethink text-brand-blue text-xl font-bold pl-2">Glimpse</h1>
             </div>
             <div class="flex space-x-4 items-center">
-                <p>Privacy Police</p>
-                <p>Terms of Service</p>
+                <p class="transition-all hover:text-brand-green">Privacy Police</p>
+                <p class="transition-all hover:text-brand-green">Terms of Service</p>
             </div>
             <div class="flex space-x-4 items-center">
-                <div class="my-2">
-                    <i class="ri-instagram-line ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
-                    <i class="ri-youtube-fill ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
-                    <i class="ri-twitter-fill ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
-                    <i
-                        class="ri-facebook-circle-fill ml-1 px-2 py-2 bg-brand-green text-white text-3xl rounded-full"></i>
-                </div>
-            </div>
+    <div class="my-2 flex gap-2">
+        <i class="ri-instagram-line px-2.5 py-2 bg-brand-green text-white text-3xl rounded-full shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md"></i>
+        <i class="ri-youtube-fill px-2.5 py-2 bg-brand-green text-white text-3xl rounded-full shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md"></i>
+        <i class="ri-twitter-fill px-2.5 py-2 bg-brand-green text-white text-3xl rounded-full shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md"></i>
+        <i class="ri-facebook-circle-fill px-2.5 py-2 bg-brand-green text-white text-3xl rounded-full shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md"></i>
+    </div>
+</div>
             <div>
                 <p class="text-black/50">Copyright © 2026 Glimpse</p>
             </div>
