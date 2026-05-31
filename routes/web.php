@@ -24,7 +24,6 @@ Route::middleware('auth')->controller(NotesController::class)->group(function ()
 });
 
 Route::middleware('auth')->controller(CategoryController::class)->group(function () {
-    Route::get('/', 'index')->name('notes.index');
     Route::post('/categories/store', 'store')->name('categories.store');
     Route::put('/categories/update/{id}', 'update')->name('categories.update');
     Route::delete('/categories/destroy/{id}', 'destroy')->name('categories.destroy');

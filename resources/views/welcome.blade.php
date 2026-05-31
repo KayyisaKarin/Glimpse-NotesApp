@@ -173,7 +173,7 @@
             <div class="space-y-10">
                 <h3 class="font-rethink bold text-4xl text-white">We make note-taking simple, colorful, and easy to
                     enjoy every day.</h3>
-                <a href="{{ route('dashboard') }}"
+                <a href="#"
                     class="bg-brand-yellow font-medium text-lg text-center px-8 py-3 rounded-lg lg:text-left">
                     Start Now!
                 </a>
