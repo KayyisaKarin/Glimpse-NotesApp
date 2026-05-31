@@ -32,14 +32,16 @@
     </style>
 </head>
 
-<body class="font-['Rethink_Sans']">
-    <div class="flex min-h-screen w-full">
+<body class="font-['Rethink_Sans'] overflow-hidden h-screen">
+    <div class="flex h-full w-full overflow-hidden">
 
-        <main class="flex-1 bg-gray-100 p-2">
+        {{-- MAIN CONTENT --}}
+        <main class="flex-1 bg-gray-100 overflow-y-auto">
             @yield('content')
         </main>
 
-        <aside class="w-72 bg-white border-l min-h-screen shrink-0 font-['Plus_Jakarta_Sans'] flex flex-col justify-between">
+        {{-- SIDEBAR --}}
+        <aside class="w-72 bg-white border-l shrink-0 font-['Plus_Jakarta_Sans'] flex flex-col justify-between overflow-y-auto">
             <div class="p-6">
                 <div class="flex items-center justify-center gap-3 mt-6 mb-12 select-none">
                     <img src="{{ asset('assets/logo.svg') }}" alt="Glimpse Logo" class="w-10 h-10">
@@ -47,19 +49,16 @@
                 </div>
 
                 <nav class="py-8 flex flex-col gap-2">
-                    {{-- Dashboard - Using ri-dashboard-fill --}}
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 bg-[#f0f4f9] text-[#2563eb] rounded-lg font-bold text-sm transition-colors group">
                         <i class="ri-dashboard-fill text-xl leading-none"></i>
                         <span>Dashboard</span>
                     </a>
 
-                    {{-- Notes - Using ri-sticky-note-2-fill --}}
                     <a href="{{ route('notes.index') }}" class="flex items-center gap-3 px-4 py-3 text-[#2563eb] hover:bg-[#f0f4f9] rounded-lg font-bold text-sm transition-colors group">
                         <i class="ri-sticky-note-2-fill text-xl leading-none"></i>
                         <span>Notes</span>
                     </a>
 
-                    {{-- Activities - Using ri-grid-fill --}}
                     <a href="#" class="flex items-center gap-3 px-4 py-3 text-[#2563eb] hover:bg-[#f0f4f9] rounded-lg font-bold text-sm transition-colors group">
                         <i class="ri-grid-fill text-xl leading-none"></i>
                         <span>Activities</span>
@@ -68,7 +67,6 @@
             </div>
 
             <div class="bg-[#1d63ed] p-4 text-white rounded-t-none">
-
                 <div class="flex items-center gap-3 mb-4 px-1.5 py-1">
                     <div class="w-11 h-11 rounded-full overflow-hidden shadow-inner shrink-0">
                         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Han Taesan" class="w-full h-full object-cover" />
@@ -78,17 +76,11 @@
                     </div>
                 </div>
 
-                {{-- Logout Button - Using ri-logout-box-r-line --}}
-                <form method="POST" action="{{ route('logout') }}" class="w-full">
-                    @csrf
-                    <button type="submit" class="w-full bg-[#eb4343] hover:bg-red-600 active:scale-98 text-white font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-start gap-2.5 shadow-sm transition-all cursor-pointer">
-                        <i class="ri-logout-box-r-line text-base leading-none"></i>
-                        <span>Logout</span>
-                    </button>
-                </form>
-
+                <button class="w-full bg-[#eb4343] hover:bg-red-600 active:scale-98 text-white font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-start gap-2.5 shadow-sm transition-all cursor-pointer">
+                    <i class="ri-logout-box-r-line text-base leading-none"></i>
+                    <span>Logout</span>
+                </button>
             </div>
-
         </aside>
 
     </div>

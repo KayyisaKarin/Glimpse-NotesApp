@@ -13,4 +13,11 @@ class NotesController extends Controller
 
         return view('notes.index', compact('categories'));
     }
+
+    public function create()
+    {
+        return view('notes.create');
+    }
+    public function store(Request $request){}
+}
 }
