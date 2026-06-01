@@ -42,7 +42,7 @@
         {{-- 3. MAIN DASHBOARD CONTENT GRID --}}
         <div class="grid grid-cols-3 gap-6 max-w-7xl mx-auto items-start">
 
-            {{-- NOTES SECTION (Left) - Dummy data remains --}}
+            {{-- NOTES SECTION (Left) --}}
             <div class="grid col-span-2 grid-cols-2 gap-5 overflow-y-auto scrollbar-none max-h-135">
                 @forelse($notes ?? [] as $note)
                     <div class="w-75 h-58 {{ $note->bg_color }} rounded-xl px-4 py-4 flex flex-col">
@@ -64,7 +64,7 @@
                                     <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">{{ $note->category->name }}</p>
                                 @endif
                             </div>
-                            <a href="{{ route('notes.show', $note) }}"
+                            <a href="{{ route('notes.show', $note->id) }}"
                                 class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
                                 Detail
                             </a>

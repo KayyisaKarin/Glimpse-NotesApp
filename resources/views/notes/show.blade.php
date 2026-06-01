@@ -9,7 +9,7 @@
         </a>
 
         {{-- Main Note Form --}}
-        <form id="noteForm" action="{{ ($note ?? false) ? route('notes.update', $note->id) : route('notes.store') }}"
+        <form id="noteForm" action="{{ $note ?? false ? route('notes.update', $note->id) : route('notes.store') }}"
             method="POST"
             class="w-full h-150 bg-brand-purple px-10 py-8 my-5 rounded-2xl flex flex-col overflow-hidden transition-colors duration-200">
             @csrf
@@ -51,7 +51,7 @@
 
             <div class="flex-1 flex flex-col my-4 mx-4 overflow-hidden">
                 <textarea name="content" id="contentTextArea"
-                    class="w-full flex-1 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200 placeholder:text-white/50"
+                    class="w-full flex-1 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200 placeholder:text-white/50 @error('content') ring-2 ring-red-400 rounded-xl p-2 @enderror"
                     placeholder="Write your notes here...">{{ old('content', $note->content ?? '') }}</textarea>
 
                 @error('content')
@@ -86,11 +86,11 @@
                 <div class="flex items-center gap-4">
                     <button type="submit"
                         class="bg-brand-yellow text-black px-8 py-3 font-semibold rounded-xl hover:bg-brand-orange active:scale-98 transition shadow-sm cursor-pointer">
-                        {{ ($note ?? false) ? 'Update Note' : 'Save Note' }}
+                            <i class="ri-edit-box-fill"></i>
+                            Update Note
                     </button>
 
                     @if ($note ?? false)
-                        {{-- Trigger standalone delete action by clicking this proxy layout element --}}
                         <button type="button" onclick="document.getElementById('deleteForm').submit();"
                             class="bg-brand-red text-white px-8 py-3 font-semibold rounded-xl hover:bg-red-700 active:scale-98 transition shadow-sm cursor-pointer flex items-center gap-2">
                             <i class="ri-delete-bin-line"></i>
@@ -101,7 +101,6 @@
             </div>
         </form>
 
-        {{-- 💡 SAFE SEPARATE DELETE FORM (Keeps HTML clean and error handling functioning) --}}
         @if ($note ?? false)
             <form id="deleteForm" action="{{ route('notes.destroy', $note->id) }}" method="POST" class="hidden"
                 onsubmit="return confirm('Are you sure you want to delete this note? This action cannot be undone.');">
@@ -109,6 +108,8 @@
                 @method('DELETE')
             </form>
         @endif
+
+
     </section>
 
 
