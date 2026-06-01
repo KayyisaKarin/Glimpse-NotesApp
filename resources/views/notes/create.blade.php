@@ -22,15 +22,7 @@
                           placeholder="Write your notes here..."></textarea>
             </div>
         
-            <div class="flex items-center justify-between shrink-0">
-                <div class="flex gap-2">
-                    <select name="" id="" class="w-20 h-20 border-none bg-white rounded-xl px-4 py-2">
-                        <option value="purple"></option>
-                    </select>
-                    <select name="" id="" class="w-20 h-20 border-none bg-white rounded-xl px-4 py-2">
-                        <option value="Icon"></option>
-                    </select>
-                </div>
+            <div class="flex items-center justify-end shrink-0">
                 <a href="#" class="bg-brand-red px-8 py-2 font-medium rounded-lg hover:bg-red-700 transition">Delete Note</a>
             </div>
         </form>
