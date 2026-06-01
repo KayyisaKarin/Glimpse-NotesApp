@@ -26,8 +26,8 @@
                     </button>
                 </a>
                 {{-- Add Button --}}
-                <button onclick="openAddModal()" class="bg-brand-purple text-white px-6 py-3.5 rounded-xl">
-                    Add Category
+                <button onclick="openAddModal()" class="bg-brand-purple hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
+                    <i class="ri-add-line text-lg"></i>Add Category
                 </button>
             </div>
         </div>
@@ -53,18 +53,18 @@
 
                 <div class="space-y-3">
                     @forelse ($categories as $cat)
-                        <div class="flex items-center justify-between border-2  rounded-xl px-4 py-3 bg-white select-none">
+                        <div class="flex items-center justify-between border-2  rounded-xl px-4 py-3 bg-white group transition-all hover:bg-brand-yellow/70 hover:border-gray-400/80 select-none">
                             <span class="font-bold text-gray-900 text-sm">{{ $cat->name }}</span>
                             <div class="flex gap-2">
                                 {{-- Edit Button --}}
                                 <button onclick="openEditModal({{ $cat->id }}, '{{ $cat->name }}')"
-                                    class="text-gray-400 hover:text-brand-purple transition-colors">
-                                    <i class="ri-pencil-line text-lg"></i>
+                                    class="text-gray-400 group-hover:text-gray-600 hover:text-brand-purple transition-colors">
+                                    <i class="ri-pencil-line text-lg hover:text-xl transition-all"></i>
                                 </button>
                                 {{-- Delete Button --}}
                                 <button onclick="openDeleteModal({{ $cat->id }})"
-                                    class="text-gray-400 hover:text-red-500 transition-colors">
-                                    <i class="ri-delete-bin-line text-lg"></i>
+                                    class="text-gray-400 group-hover:text-gray-600 hover:text-red-500 transition-colors">
+                                    <i class="ri-delete-bin-line text-lg hover:text-xl transition-all"></i>
                                 </button>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                     <button type="button" onclick="closeModal('editModal')"
                         class="flex-1 px-4 py-3 rounded-xl border-2  font-bold text-gray-700 hover:bg-gray-50 transition-all">Cancel</button>
                     <button type="submit"
-                        class="flex-1 px-4 py-3 rounded-xl bg-brand-blue text-white font-bold transition-all">Update</button>
+                        class="flex-1 px-4 py-3 rounded-xl bg-brand-blue hover:bg-brand-blue/80 text-white font-bold transition-all">Update</button>
                 </div>
             </form>
         </div>
@@ -137,7 +137,7 @@
         <div class="bg-white rounded-3xl shadow-xl w-full max-w-sm overflow-hidden border-2 ">
             <div class="p-6 text-center">
                 <div
-                    class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-200">
+                    class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="ri-delete-bin-fill text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-extrabold text-gray-900 mb-2">Delete Category?</h3>
@@ -150,7 +150,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                            class="w-full px-4 py-3 rounded-xl bg-red-500 text-white font-bold border-2  shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all">Yes,
+                            class="w-full px-4 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold active:translate-x-1 active:translate-y-1 transition-all">Yes,
                             Delete</button>
                     </form>
                 </div>
