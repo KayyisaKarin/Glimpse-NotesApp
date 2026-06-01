@@ -43,180 +43,44 @@
         {{-- 3. MAIN DASHBOARD CONTENT GRID --}}
         <div class="grid grid-cols-3 gap-6 max-w-7xl mx-auto items-start">
 
-            {{-- NOTES SECTION (Left) - Dummy data remains --}}
-            <div class="grid col-span-2 grid-cols-2 gap-5">
-                <div class="grid col-span-2 grid-cols-2 gap-5 overflow-y-auto scrollbar-none max-h-135">
-                    <div class="grid col-span-2 grid-cols-2 gap-5">
-                        <div class="w-75 h-58 bg-brand-purple rounded-xl px-4 py-4 flex flex-col">
-                            <!-- Header -->
-                            <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                                <h1 class="text-white text-lg font-bold">Glimpse Screens</h1>
-                                <p class="text-sm text-white/50">Date</p>
-                            </div>
+            {{-- NOTES SECTION (Left) --}}
+            <div class="grid col-span-2 grid-cols-2 gap-5 overflow-y-auto scrollbar-none max-h-135">
+                @forelse ($notes as $note)
+                    <div class="w-75 h-58 rounded-xl px-4 py-4 flex flex-col {{ $note->bg_color ?? 'bg-brand-purple' }}">
+                        <!-- Header -->
+                        <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
+                            <h1 class="text-white text-lg font-bold truncate">{{ $note->title }}</h1>
+                            <p class="text-sm text-white/50">{{ $note->created_at->format('d/m/Y') }}</p>
+                        </div>
 
-                            <!-- Content -->
-                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                                <p class="text-white text-sm">
-                                    Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-
-                            <!-- Footer -->
-                            <div class="flex items-center justify-between shrink-0">
-                                <div>
-                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">Category</p>
-                                </div>
-                                <a href="#"
-                                    class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
-                                    Detail
-                                </a>
+                        <!-- Content - TAMPILKAN FORMAT HTML -->
+                        <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
+                            <div class="text-white text-sm prose prose-invert max-w-none">
+                                @php
+                                    $limitedContent = Str::limit($note->content, 150);
+                                @endphp
+                                {!! $limitedContent !!}
                             </div>
                         </div>
-                        <div class="w-75 h-58 bg-brand-purple rounded-xl px-4 py-4 flex flex-col">
-                            <!-- Header -->
-                            <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                                <h1 class="text-white text-lg font-bold">Glimpse Screens</h1>
-                                <p class="text-sm text-white/50">Date</p>
-                            </div>
 
-                            <!-- Content -->
-                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                                <p class="text-white text-sm">
-                                    Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        <!-- Footer -->
+                        <div class="flex items-center justify-between shrink-0">
+                            <div>
+                                <p class="px-4 py-1.5 bg-white/30 text-white text-xs rounded-full">
+                                    {{ $note->category->name ?? 'Uncategorized' }}
                                 </p>
                             </div>
-
-                            <!-- Footer -->
-                            <div class="flex items-center justify-between shrink-0">
-                                <div>
-                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">Category</p>
-                                </div>
-                                <a href="#"
-                                    class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
-                                    Detail
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-75 h-58 bg-brand-purple rounded-xl px-4 py-4 flex flex-col">
-                            <!-- Header -->
-                            <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                                <h1 class="text-white text-lg font-bold">Glimpse Screens</h1>
-                                <p class="text-sm text-white/50">Date</p>
-                            </div>
-
-                            <!-- Content -->
-                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                                <p class="text-white text-sm">
-                                    Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-
-                            <!-- Footer -->
-                            <div class="flex items-center justify-between shrink-0">
-                                <div>
-                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">Category</p>
-                                </div>
-                                <a href="#"
-                                    class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
-                                    Detail
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-75 h-58 bg-brand-purple rounded-xl px-4 py-4 flex flex-col">
-                            <!-- Header -->
-                            <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                                <h1 class="text-white text-lg font-bold">Glimpse Screens</h1>
-                                <p class="text-sm text-white/50">Date</p>
-                            </div>
-
-                            <!-- Content -->
-                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                                <p class="text-white text-sm">
-                                    Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-
-                            <!-- Footer -->
-                            <div class="flex items-center justify-between shrink-0">
-                                <div>
-                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">Category</p>
-                                </div>
-                                <a href="#"
-                                    class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
-                                    Detail
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-75 h-58 bg-brand-purple rounded-xl px-4 py-4 flex flex-col">
-                            <!-- Header -->
-                            <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                                <h1 class="text-white text-lg font-bold">Glimpse Screens</h1>
-                                <p class="text-sm text-white/50">Date</p>
-                            </div>
-
-                            <!-- Content -->
-                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                                <p class="text-white text-sm">
-                                    Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-
-                            <!-- Footer -->
-                            <div class="flex items-center justify-between shrink-0">
-                                <div>
-                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">Category</p>
-                                </div>
-                                <a href="#"
-                                    class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
-                                    Detail
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-75 h-58 bg-brand-purple rounded-xl px-4 py-4 flex flex-col">
-                            <!-- Header -->
-                            <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                                <h1 class="text-white text-lg font-bold">Glimpse Screens</h1>
-                                <p class="text-sm text-white/50">Date</p>
-                            </div>
-
-                            <!-- Content -->
-                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                                <p class="text-white text-sm">
-                                    Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-
-                            <!-- Footer -->
-                            <div class="flex items-center justify-between shrink-0">
-                                <div>
-                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">Category</p>
-                                </div>
-                                <a href="#"
-                                    class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
-                                    Detail
-                                </a>
-                            </div>
+                            <a href="{{ route('notes.edit', $note->id) }}"
+                                class="px-6 py-1 bg-white/90 hover:bg-white text-{{ $note->bg_color == 'bg-brand-purple' ? 'brand-purple' : ($note->bg_color == 'bg-brand-blue' ? 'brand-blue' : 'brand-green') }} text-sm rounded-md transition-all hover:font-bold">
+                                Edit
+                            </a>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <div class="col-span-2 text-center py-10 bg-white/50 rounded-xl">
+                        <p class="text-gray-500">No notes yet. Click "Add Note" to create one!</p>
+                    </div>
+                @endforelse
             </div>
 
             {{-- COL 3: CATEGORY SIDEBAR SECTION (Right) --}}

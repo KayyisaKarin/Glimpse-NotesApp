@@ -9,7 +9,8 @@ class Note extends Model
     protected $fillable = [
         'category_id',
         'title',
-        'content'
+        'content',
+        'bg_color'
     ];
 
     public function user()
