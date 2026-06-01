@@ -44,34 +44,35 @@
 
             {{-- NOTES SECTION (Left) - Dummy data remains --}}
             <div class="grid col-span-2 grid-cols-2 gap-5 overflow-y-auto scrollbar-none max-h-135">
-                <div class="w-75 h-58 bg-brand-purple rounded-xl px-4 py-4 flex flex-col">
-                    <!-- Header -->
-                    <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                        <h1 class="text-white text-lg font-bold">Glimpse Screens</h1>
-                        <p class="text-sm text-white/50">Date</p>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                        <p class="text-white text-sm">
-                            Lorem ipsum dolor sit amet,
-                            consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </p>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="flex items-center justify-between shrink-0">
-                        <div>
-                            <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">Category</p>
+                @forelse($notes ?? [] as $note)
+                    <div class="w-75 h-58 {{ $note->bg_color }} rounded-xl px-4 py-4 flex flex-col">
+                        <!-- Header -->
+                        <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
+                            <h1 class="text-white text-lg font-bold">{{ $note->title }}</h1>
+                            <p class="text-sm text-white/50">{{ $note->created_at->format('M j, Y') }}</p>
                         </div>
-                        <a href="#"
-                            class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
-                            Detail
-                        </a>
+
+                        <!-- Content -->
+                        <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
+                            <p class="text-white text-sm">{!! \Illuminate\Support\Str::limit(strip_tags($note->content), 200) !!}</p>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="flex items-center justify-between shrink-0">
+                            <div>
+                                @if($note->category)
+                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">{{ $note->category->name }}</p>
+                                @endif
+                            </div>
+                            <a href="{{ route('notes.show', $note) }}"
+                                class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
+                                Detail
+                            </a>
+                        </div>
                     </div>
-                </div>
+                @empty
+                    <p class="text-gray-400 text-sm text-center py-4 col-span-2">No notes yet.</p>
+                @endforelse
             </div>
 
             {{-- COL 3: CATEGORY SIDEBAR SECTION (Right) --}}
