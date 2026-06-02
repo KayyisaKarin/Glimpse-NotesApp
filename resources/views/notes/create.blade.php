@@ -27,9 +27,6 @@
                 <input value="{{ old('title') }}" name="title"
                     class="w-165 border-none bg-brand-purple text-white text-5xl font-bold placeholder:text-white/50 focus:outline-none transition-colors duration-200"
                     type="text" placeholder="Notes Title">
-                @error('title')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
 
                 <select
                     class="border-none px-5 pr-9 py-1 bg-white/50 text-white rounded-full focus:outline-none cursor-pointer"
@@ -39,10 +36,13 @@
                         <option value="{{ $category->id }}" class="text-gray-900">{{ $category->name }}</option>
                     @endforeach
                 </select>
-                @error('category_id')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
             </div>
+            @error('title')
+                    <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+                @enderror
+            @error('category_id')
+                    <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+                @enderror
 
             <div class="flex items-center text-white/70 mt-1 ml-4 gap-2 shrink-0 border-b border-white/30 pb-2">
                 <i class="ri-calendar-event-fill text-xl"></i>
@@ -51,12 +51,13 @@
 
             <div class="flex-1 overflow-y-auto my-4">
                 <div id="richTextEditor" contenteditable="true" role="textbox" aria-multiline="true"
-                    class="w-full h-full min-h-37.5 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200"
+                    class="w-full h-full min-h-20 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200"
                     placeholder="Write your notes here...">{{ old('content') }}</div>
-                @error('content')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
+                
             </div>
+            @error('content')
+                    <p class="mb-2 px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+                @enderror
 
             <div class="flex items-center justify-between shrink-0">
                 <div class="flex gap-3">

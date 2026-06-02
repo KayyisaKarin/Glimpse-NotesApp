@@ -30,8 +30,8 @@ class NotesController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:150',
-            'content' => 'nullable|string',
-            'category_id' => 'nullable|exists:categories,id',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
             'bg_color' => 'nullable|string' 
         ]);
 
@@ -47,9 +47,9 @@ class NotesController extends Controller
 
     public function edit($id)
     {
-        $categories =  Note::all();
+        $categories =  Category::all();
         $note = Note::with('category')->findOrFail($id);
-        return view('notes.edit', compact('categories'), compact('note'));
+        return view('notes.edit', compact('categories', 'note'));
     }
 
     public function update(Request $request, $id)
