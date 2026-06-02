@@ -72,23 +72,28 @@
 
                         <div class="grid grid-cols-3 gap-4 font-['Plus_Jakarta_Sans']">
                             @forelse ($latestNotes as $note)
-                                <div class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white">
+                                <div
+                                    class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white">
                                     <div class="p-5 flex flex-col justify-between h-full">
                                         <div class="mb-4">
                                             <div class="flex items-center justify-between mb-3">
                                                 <h4 class="text-xl font-semibold truncate">{{ $note->title }}</h4>
-                                                <span class="opacity-90 text-sm">{{ $note->created_at->format('d/m/Y') }}</span>
+                                                <span
+                                                    class="opacity-90 text-sm">{{ $note->created_at->format('d/m/Y') }}</span>
                                             </div>
-                                            <div class="text-sm opacity-90 leading-relaxed prose prose-invert max-w-none">
-                                                @php
-                                                    $limitedContent = Str::limit(strip_tags($note->content), 120);
-                                                @endphp
-                                                {{ $limitedContent }}
+                                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
+                                                <div class="text-white text-sm prose prose-invert max-w-none">
+                                                    @php
+                                                        $limitedContent = Str::limit($note->content, 150);
+                                                    @endphp
+                                                    {!! $limitedContent !!}
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="flex items-center justify-between mt-4">
-                                            <span class="px-3 py-1 bg-white/20 rounded-full text-xs">{{ $note->category->name ?? 'Uncategorized' }}</span>
+                                            <span
+                                                class="px-3 py-1 bg-white/20 rounded-full text-xs">{{ $note->category->name ?? 'Uncategorized' }}</span>
                                             <a href="{{ route('notes.edit', $note->id) }}"
                                                 class="bg-white/20 text-white px-3 py-1 rounded-lg text-xs hover:bg-white/30 transition">Edit</a>
                                         </div>
@@ -149,7 +154,8 @@
                                     </label>
                                 </form>
                             @empty
-                                <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List Yet</span>
+                                <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List
+                                    Yet</span>
                             @endforelse
                         </div>
                     </div>
@@ -171,7 +177,8 @@
                             {{-- Menghubungkan Form ke Laravel Backend --}}
                             <form action="{{ route('todo.store') }}" method="POST">
                                 @csrf
-                                <input type="text" id="new-task-input" name="title" placeholder="Enter your task here..." required autocomplete="off"
+                                <input type="text" id="new-task-input" name="title"
+                                    placeholder="Enter your task here..." required autocomplete="off"
                                     class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-5 text-base">
                                 <div class="flex justify-center">
                                     <button type="submit" id="submit-task-btn"
@@ -233,7 +240,7 @@
                 modalContent.classList.remove('scale-100');
                 modalContent.classList.add('scale-95');
             }
-            
+
             openBtn.addEventListener('click', openModal);
             closeBtn.addEventListener('click', closeModal);
             overlay.addEventListener('click', closeModal);

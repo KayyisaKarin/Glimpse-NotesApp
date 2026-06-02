@@ -53,7 +53,7 @@
                             <p class="text-sm text-white/50">{{ $note->created_at->format('d/m/Y') }}</p>
                         </div>
 
-                        <!-- Content - TAMPILKAN FORMAT HTML -->
+                        <!-- Content -->
                         <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
                             <div class="text-white text-sm prose prose-invert max-w-none">
                                 @php
