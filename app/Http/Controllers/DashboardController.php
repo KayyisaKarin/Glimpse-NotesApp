@@ -28,7 +28,7 @@ class DashboardController extends Controller
             'is_completed' => false,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('dashboard')->with('success', 'Data added succesfully!');
     }
 
     public function destroy(int $id)
@@ -36,6 +36,13 @@ class DashboardController extends Controller
         $todos = Todo::findOrFail($id);
         $todos->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Data berhasil dihapus.');
+        return redirect()->route('dashboard')->with('success', 'Data deleted succesfully.');
+    }
+
+    public function toggle(Request $request, $id)
+    {
+        $todo = Todo::findOrFail($id);
+        $todo->update(['is_completed' => $request->is_completed]);
+        return response()->json(['success' => true]);
     }
 }

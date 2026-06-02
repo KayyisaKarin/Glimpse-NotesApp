@@ -6,7 +6,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 {{-- Card Name --}}
                 <div
-                    class="md:col-span-2 bg-[#2563eb] rounded-2xl p-8 text-white relative overflow-hidden flex flex-col justify-center min-h-[180px]">
+                    class="md:col-span-2 bg-[#2563eb] rounded-2xl p-8 text-white relative overflow-hidden flex flex-col justify-center min-h-45">
                     <h1 class="text-5xl font-bold mb-2">Hi, {{ ucfirst(strtolower(auth()->user()->name)) }}!</h1>
                     <p class="text-blue-100 font-medium text-lg">Ready to sync your thoughts?</p>
 
@@ -57,7 +57,7 @@
                 <div class="flex flex-col gap-4 flex-1">
                     {{-- notes kuning --}}
                     <div
-                        class="bg-[#FDE047] text-black font-semibold flex flex-row justify-between py-3 px-6 text-xl rounded-xl w-full">
+                        class="bg-brand-yellow text-black font-semibold flex flex-row justify-between py-3 px-6 text-xl rounded-xl w-full">
                         <h3>Total Notes</h3>
                         <span>{{ $totalNotes }}</span>
                     </div>
@@ -73,7 +73,7 @@
                         <div class="grid grid-cols-3 gap-4 font-['Plus_Jakarta_Sans']">
                             @forelse ($latestNotes as $note)
                                 <div
-                                    class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white">
+                                    class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white max-h-135">
                                     <div class="p-5 flex flex-col justify-between h-full">
                                         <div class="mb-4">
                                             <div class="flex items-center justify-between mb-3">
@@ -81,19 +81,19 @@
                                                 <span
                                                     class="opacity-90 text-sm">{{ $note->created_at->format('d/m/Y') }}</span>
                                             </div>
-                                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                                                <div class="text-white text-sm prose prose-invert max-w-none">
-                                                    @php
-                                                        $limitedContent = Str::limit($note->content, 150);
-                                                    @endphp
-                                                    {!! $limitedContent !!}
-                                                </div>
+                                        </div>
+                                        <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
+                                            <div class="text-white text-sm prose prose-invert max-w-none">
+                                                @php
+                                                    $limitedContent = Str::limit($note->content, 150);
+                                                @endphp
+                                                {!! $limitedContent !!}
                                             </div>
                                         </div>
 
-                                        <div class="flex items-center justify-between mt-4">
+                                        <div class="flex items-center justify-between shrink-0 mt-4">
                                             <span
-                                                class="px-3 py-1 bg-white/20 rounded-full text-xs">{{ $note->category->name ?? 'Uncategorized' }}</span>
+                                                class="px-3 py-1 bg-white/20 rounded-full text-xs">{{ $note->category->name }}</span>
                                             <a href="{{ route('notes.edit', $note->id) }}"
                                                 class="bg-white/20 text-white px-3 py-1 rounded-lg text-xs hover:bg-white/30 transition">Edit</a>
                                         </div>
@@ -133,26 +133,45 @@
                         <div class="bg-[#1761EC] text-white flex flex-row p-4 justify-between items-center">
                             <h3 class="font-semibold text-xl">To-Do List</h3>
                             <button id="add-task-btn"
-                                class="text-white font-bold text-sm hover:rotate-45 transition-all duration-300 cursor-pointer">
+                                class="text-white font-bold text-sm hover:rotate-180 transition-all duration-700 cursor-pointer">
                                 <i class="ri-add-large-line"></i>
                             </button>
                         </div>
 
                         <div id="todo-list-wrapper" class="p-4 flex flex-col gap-2">
                             @forelse ($todos as $todo)
-                                {{-- Setiap item to-do dibungkus form DELETE kustom --}}
-                                <form action="{{ route('todo.destroy', $todo->id) }}" method="POST" class="m-0">
-                                    @csrf
-                                    @method('DELETE')
-                                    <label class="todo-item flex items-center gap-4 cursor-pointer group select-none">
-                                        <input type="checkbox" onchange="this.form.submit()"
-                                            class="todo-checkbox border-2 border-gray-300 rounded-md w-5 h-5 checked:bg-[#1761EC] checked:border-[#1761EC] focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer appearance-none flex items-center justify-center after:text-white after:text-xs after:font-bold after:hidden checked:after:block">
+                                <div x-data="{ completed: {{ $todo->is_completed ? 'true' : 'false' }} }"
+                                    class="todo-item flex items-center justify-between gap-4 cursor-pointer group select-none">
+
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" x-model="completed"
+                                            @change="fetch('{{ route('todo.toggle', $todo->id) }}', {
+                           method: 'PATCH',
+                           headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                           body: JSON.stringify({ is_completed: completed })
+                       })"
+                                            class="todo-checkbox border-2 border-gray-300 rounded-md w-5 h-5 checked:bg-[#1761EC] checked:border-[#1761EC] focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer appearance-none after:text-white after:text-xs after:font-bold after:hidden checked:after:block">
+
                                         <span
-                                            class="todo-text text-gray-800 font-medium text-base transition-all group-hover:text-gray-600">
+                                            class="todo-text text-gray-800 font-medium text-base transition-all group-hover:text-gray-600"
+                                            :class="{ 'line-through': completed }">
                                             {{ $todo->title }}
                                         </span>
-                                    </label>
-                                </form>
+                                    </div>
+
+                                    <form action="{{ route('todo.destroy', $todo->id) }}" method="POST" class="m-0">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" x-show="completed" x-transition
+                                            @click="if(confirm('Delete this todo?')) fetch('{{ route('todo.destroy', $todo->id) }}', {
+                        method: 'DELETE',
+                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                    }).then(() => location.reload())"
+                                            class="bg-transparent border-none p-0 cursor-pointer transition-all duration-300 ease-in-out hover:scale-120">
+                                            <i class="ri-close-circle-line text-brand-red text-xl"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             @empty
                                 <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List
                                     Yet</span>
