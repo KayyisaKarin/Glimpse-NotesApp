@@ -47,7 +47,7 @@ class NotesController extends Controller
         return redirect(route('notes.index'))->with('success', 'Note added succesfully');
     }
 
-    public function edit($id)
+    public function edit(int $id)
     {
         $categories =  Category::all();
         $note = Note::with('category')->findOrFail($id);
