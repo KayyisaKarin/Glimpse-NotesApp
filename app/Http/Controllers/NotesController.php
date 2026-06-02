@@ -23,13 +23,17 @@ class NotesController extends Controller
         $categories = Category::all();
 
         return view('notes.create', compact('categories'));
+<<<<<<< Updated upstream
         
+=======
+>>>>>>> Stashed changes
     }
 
     public function store(Request $request)
     {
         // dd($request->all());
 
+<<<<<<< Updated upstream
         $request->validate([
             'title' => 'required|string|max:150',
             'content' => 'required|string',
@@ -66,5 +70,28 @@ class NotesController extends Controller
         $note = Note::findOrFail($id);
         $note->delete();
         return redirect(route('notes.index'))->with('success','Note deletes succesfully');
+=======
+        Note::create([
+            'category_id'   => $request->category_id,
+            'title'         => $request->title,
+        ]);
+
+        return redirect(route('admin.book.index'))->with('success', 'Buku berhasil ditambahkan');
+    }
+
+    public function show($id)
+    {
+
+    }
+
+    public function edit($id)
+    {
+
+    }
+
+    public function update(Request $request, $id)
+    {
+
+>>>>>>> Stashed changes
     }
 }
