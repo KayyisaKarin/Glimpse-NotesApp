@@ -24,13 +24,13 @@
                             <span class="text-4xl font-bold block">{{ now()->format('d') }}</span>
                             <span class="text-lg opacity-80">{{ now()->format('l') }}</span>
                         </div>
-                        <button id="add-event-btn"
+                        <button id="add-event-btn mt-4"
                             class="bg-[#ff9f1c] hover:bg-[#f19719] text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer z-10">
                             + Add Event
                         </button>
                     </div>
                     <div class="w-fit p-4 flex flex-col justify-between items-start relative">
-                        <div class="w-fit">
+                        <div class="w-fit scale-85">
                             <div class="flex justify-between items-center">
                                 <h3 class="font-bold">{{ now()->translatedFormat('F Y') }}</h3>
                             </div>
@@ -52,77 +52,67 @@
             </div>
 
             {{-- bawah header --}}
-            <div class="flex flex-row gap-4 h-full">
+            <div class="flex flex-row gap-6">
                 {{-- col kiri --}}
-                <div class="flex flex-col gap-4 flex-1 w-2/4">
-                    {{-- card latets notes --}}
-                    <div class="border-[#1761EC] w-full border rounded-2xl p-6 bg-white">
+                <div class="flex flex-col gap-4 flex-1">
+                    {{-- notes kuning --}}
+                    <div
+                        class="bg-[#FDE047] text-black font-semibold flex flex-row justify-between py-3 px-6 text-xl rounded-xl w-full">
+                        <h3>Total Notes</h3>
+                        <span>{{ $totalNotes }}</span>
+                    </div>
+                    {{-- card latest notes --}}
+                    <div class="border-[#1761EC] border rounded-2xl p-6 bg-white">
                         <div class="flex flex-row justify-between items-center mt-4 mb-8">
                             <h2 class="text-3xl font-bold">Your Latest Notes</h2>
-                            <span class="text-white bg-[#1761EC] px-3 py-2 rounded-lg">
+                            <a href="{{ route('notes.create') }}" class="text-white bg-[#1761EC] px-3 py-2 rounded-lg">
                                 <i class="ri-add-large-line"></i>
-                            </span>
+                            </a>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-2 font-['Plus_Jakarta_Sans']">
-                            {{-- Notes div --}}
-                            <div class="bg-[#1761EC] p-4 rounded-xl text-white">
-                                <div class=" flex flex-row justify-between items-center border-b-2 border-white/40 pb-2">
-                                    <h4 class="text-lg font-semibold">Glimpse Screens</h4>
-                                    <span class="opacity-90 text-xs">April 21</span>
+                        <div class="grid grid-cols-3 gap-4 font-['Plus_Jakarta_Sans']">
+                            @forelse ($latestNotes as $note)
+                                <div class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white">
+                                    <div class="p-5 flex flex-col justify-between h-full">
+                                        <div class="mb-4">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <h4 class="text-xl font-semibold truncate">{{ $note->title }}</h4>
+                                                <span class="opacity-90 text-sm">{{ $note->created_at->format('d/m/Y') }}</span>
+                                            </div>
+                                            <div class="text-sm opacity-90 leading-relaxed prose prose-invert max-w-none">
+                                                @php
+                                                    $limitedContent = Str::limit(strip_tags($note->content), 120);
+                                                @endphp
+                                                {{ $limitedContent }}
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-4">
+                                            <span class="px-3 py-1 bg-white/20 rounded-full text-xs">{{ $note->category->name ?? 'Uncategorized' }}</span>
+                                            <a href="{{ route('notes.edit', $note->id) }}"
+                                                class="bg-white/20 text-white px-3 py-1 rounded-lg text-xs hover:bg-white/30 transition">Edit</a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="py-4 text-xs opacity-85">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi eius delectus quidem
-                                    iste eaque esse ullam incidunt iure corporis veritatis.
+                            @empty
+                                <div class="col-span-3 text-center py-10 bg-gray-50 rounded-2xl">
+                                    <p class="text-gray-500">No notes yet. Create your first note to see it here.</p>
                                 </div>
-                                <a href="#">
-                                    <button
-                                        class="bg-white py-2 px-4 text-[#1761EC] font-semibold flex justify-end text-sm rounded-lg">Detail</button>
-                                </a>
-                            </div>
-                            {{-- Notes div --}}
-                            <div class="bg-[#1761EC] p-4 rounded-xl text-white">
-                                <div class=" flex flex-row justify-between items-center border-b-2 border-white/40 pb-2">
-                                    <h4 class="text-lg font-semibold">Glimpse Screens</h4>
-                                    <span class="opacity-90 text-xs">April 21</span>
-                                </div>
-                                <div class="py-4 text-xs opacity-85">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi eius delectus quidem
-                                    iste eaque esse ullam incidunt iure corporis veritatis.
-                                </div>
-                                <a href="#">
-                                    <button
-                                        class="bg-white py-2 px-4 text-[#1761EC] font-semibold flex justify-end text-sm rounded-lg">Detail</button>
-                                </a>
-                            </div>
-                            {{-- Notes div --}}
-                            <div class="bg-[#1761EC] p-4 rounded-xl text-white">
-                                <div class=" flex flex-row justify-between items-center border-b-2 border-white/40 pb-2">
-                                    <h4 class="text-lg font-semibold">Glimpse Screens</h4>
-                                    <span class="opacity-90 text-xs">April 21</span>
-                                </div>
-                                <div class="py-4 text-xs opacity-85">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi eius delectus quidem
-                                    iste eaque esse ullam incidunt iure corporis veritatis.
-                                </div>
-                                <a href="#">
-                                    <button
-                                        class="bg-white py-2 px-4 text-[#1761EC] font-semibold flex justify-end text-sm rounded-lg">Detail</button>
-                                </a>
-                            </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
 
                 {{-- col kanan --}}
-                <div class="w-1/4 max-w-sm flex flex-col gap-4">
+                <div class="w-full max-w-sm flex flex-col gap-4">
                     {{-- Activity This Week --}}
                     <div class="rounded-xl overflow-hidden bg-white flex flex-col border-2 border-gray-200">
                         <h3 class="bg-[#1761EC] overflow-hidden text-white font-['Rethink_Sans'] font-semibold p-4 text-xl">
                             Upcoming Events</h3>
-                        <div id="event-list-wrapper" class="p-2 flex flex-col gap-2">
+                        <div id="event-list-wrapper" class="p-4 flex flex-col gap-2">
                             <div
                                 class="flex gap-2 p-2 relative items-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300">
+                                <div class="w-10 h-10 bg-[#1761EC] rounded-lg"></div>
                                 <div class="flex flex-col">
                                     <p class="font-semibold">Ied Al-Adha</p>
                                     <span class="text-xs">Wednesday, May 27</span>
@@ -159,8 +149,7 @@
                                     </label>
                                 </form>
                             @empty
-                                <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List
-                                    Yet</span>
+                                <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List Yet</span>
                             @endforelse
                         </div>
                     </div>
@@ -182,8 +171,7 @@
                             {{-- Menghubungkan Form ke Laravel Backend --}}
                             <form action="{{ route('todo.store') }}" method="POST">
                                 @csrf
-                                <input type="text" id="new-task-input" name="title"
-                                    placeholder="Enter your task here..." required autocomplete="off"
+                                <input type="text" id="new-task-input" name="title" placeholder="Enter your task here..." required autocomplete="off"
                                     class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-5 text-base">
                                 <div class="flex justify-center">
                                     <button type="submit" id="submit-task-btn"
@@ -198,35 +186,23 @@
                     {{-- MODAL ADD EVENT --}}
                     <div id="event-modal"
                         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 invisible opacity-0 transition-all duration-300">
-                        <div id="event-modal-overlay" class="absolute inset-0"></div>
-
-                        <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-xl border border-gray-100 transition-all scale-95 duration-300 z-10"
+                        <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-xl border border-gray-100 transition-all scale-95 duration-300"
                             id="event-modal-content">
-
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-black font-bold text-2xl tracking-tight">Add New Event</h3>
-                                <button id="close-event-modal-btn" type="button"
+                                <button id="close-event-modal-btn"
                                     class="text-gray-400 hover:text-gray-600 font-bold text-sm cursor-pointer">✕</button>
                             </div>
-
-                            <form action="{{ route('events.store') }}" method="POST">
-                                @csrf
-
-                                <input type="text" name="title" id="new-event-input" required
-                                    placeholder="Event name (e.g. Study Session)..."
-                                    class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-3 text-base">
-
-                                <input type="date" name="event_date" id="event-date-input" required
-                                    class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-2 px-4 text-gray-600 mb-5 text-sm focus:outline-none focus:border-gray-300">
-
-                                <div class="flex justify-center">
-                                    <button type="submit" id="submit-event-btn"
-                                        class="bg-[#ff9f1c] hover:bg-amber-600 text-white font-bold px-8 py-2.5 rounded-lg shadow-md transition-colors cursor-pointer text-sm">
-                                        Add Event
-                                    </button>
-                                </div>
-                            </form>
-
+                            <input type="text" id="new-event-input" placeholder="Event name (e.g. Study Session)..."
+                                class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-3 text-base">
+                            <input type="text" id="event-date-input" readonly
+                                class="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-4 text-gray-600 mb-5 text-sm cursor-not-allowed">
+                            <div class="flex justify-center">
+                                <button id="submit-event-btn"
+                                    class="bg-[#ff9f1c] hover:bg-amber-600 text-white font-bold px-8 py-2.5 rounded-lg shadow-md transition-colors cursor-pointer text-sm">
+                                    Add Event
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -237,59 +213,30 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('todo-modal');
+            const modalContent = document.getElementById('modal-content');
+            const openBtn = document.getElementById('add-task-btn');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const overlay = document.getElementById('modal-overlay');
+
+            function openModal() {
+                modal.classList.remove('invisible', 'opacity-0');
+                modal.classList.add('visible', 'opacity-100');
+
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }
+
+            function closeModal() {
+                modal.classList.remove('visible', 'opacity-100');
+                modal.classList.add('invisible', 'opacity-0');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+            }
             
-            const todoModal = document.getElementById('todo-modal');
-            const todoContent = document.getElementById('modal-content');
-            const todoOpenBtn = document.getElementById('add-task-btn');
-            const todoCloseBtn = document.getElementById('close-modal-btn');
-            const todoOverlay = document.getElementById('modal-overlay');
-
-            // === 2. ELEMEN MODAL EVENT ===
-            const eventModal = document.getElementById('event-modal');
-            const eventContent = document.getElementById('event-modal-content');
-            const eventOpenBtn = document.getElementById('add-event-btn');
-            const eventCloseBtn = document.getElementById('close-event-modal-btn');
-            const eventOverlay = document.getElementById('event-modal-overlay');
-
-            // === FUNGSI MODAL TODO (DIBEDAKAN NAMANYA) ===
-            function openTodoModal() {
-                todoModal.classList.remove('invisible', 'opacity-0');
-                todoModal.classList.add('visible', 'opacity-100');
-                todoContent.classList.remove('scale-95');
-                todoContent.classList.add('scale-100');
-            }
-
-            function closeTodoModal() {
-                todoModal.classList.remove('visible', 'opacity-100');
-                todoModal.classList.add('invisible', 'opacity-0');
-                todoContent.classList.remove('scale-100');
-                todoContent.classList.add('scale-95');
-            }
-
-            // === FUNGSI MODAL EVENT (DIBEDAKAN NAMANYA) ===
-            function openEventModal() {
-                eventModal.classList.remove('invisible', 'opacity-0');
-                eventModal.classList.add('visible', 'opacity-100');
-                eventContent.classList.remove('scale-95');
-                eventContent.classList.add('scale-100');
-            }
-
-            function closeEventModal() {
-                eventModal.classList.remove('visible', 'opacity-100');
-                eventModal.classList.add('invisible', 'opacity-0');
-                eventContent.classList.remove('scale-100');
-                eventContent.classList.add('scale-95');
-            }
-
-            // modal todo
-            if (todoOpenBtn) todoOpenBtn.addEventListener('click', openTodoModal);
-            if (todoCloseBtn) todoCloseBtn.addEventListener('click', closeTodoModal);
-            if (todoOverlay) todoOverlay.addEventListener('click', closeTodoModal);
-
-            // modal event
-            if (eventOpenBtn) eventOpenBtn.addEventListener('click', openEventModal);
-            if (eventCloseBtn) eventCloseBtn.addEventListener('click', closeEventModal);
-            if (eventOverlay) eventOverlay.addEventListener('click', closeEventModal);
+            openBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal);
         });
     </script>
 @endsection

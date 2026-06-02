@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Events;
+use App\Models\Note;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 
@@ -11,50 +12,30 @@ class DashboardController extends Controller
     public function index()
     {
         $todos = Todo::all(); //mengambil semua data todo
-        return view('dashboard', compact('todos'));
+        $latestNotes = Note::with('category')->latest()->limit(3)->get();
+        $totalNotes = Note::count();
+        return view('dashboard', compact('todos', 'latestNotes', 'totalNotes'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string', 
-            'date' => 'required|date', 
+            'title' => 'required|string|max:255',
         ]);
+
         Todo::create([
             'title' => $validated['title'],
-            'date' => false,
+            'is_completed' => false,
         ]);
-        
-        return redirect()->route('dashboard')->with('success', 'Yeyeyey data berhasil ditambahkan!');
+
+        return redirect()->route('dashboard')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $todos = Todo::findOrFail($id);
         $todos->delete();
 
-        return redirect()->route('dashboard')->with('succes', 'data berhasil dihapus');
-    }
-
-    public function eventStore(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'date' => 'required|date',
-        ]);
-        Events::create([
-            'title' => $validated['title'],
-            'date' => $validated['date'],
-        ]);
-        
-        return redirect()->route('dashboard')->with('success', 'Yeyeyey data berhasil ditambahkan!');
-    }
-
-    public function eventDestroy($id)
-    {
-        $events = Events::findOrFail($id);
-        $events->delete();
-
-        return redirect()->route('dashboard')->with('succes', 'data berhasil dihapus');
+        return redirect()->route('dashboard')->with('success', 'Data berhasil dihapus.');
     }
 }
