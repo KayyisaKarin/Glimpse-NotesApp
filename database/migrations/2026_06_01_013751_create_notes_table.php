@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('title', 150);
             $table->text('content')->nullable();
+            $table->string('bg_color')->default('bg-brand-purple');
             $table->timestamps();
         });
     }
