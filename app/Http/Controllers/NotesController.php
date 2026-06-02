@@ -42,14 +42,14 @@ class NotesController extends Controller
         return redirect()->route('notes.index')->with('success', 'Note added succesfully');
     }
 
-    public function edit($id)
+    public function edit(int $id)
     {
         $categories = Category::all();  // ← perbaiki ini
         $note = Note::with('category')->findOrFail($id);
         return view('notes.edit', compact('categories', 'note'));  // ← perbaiki compact
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $note = Note::findOrFail($id);
         $note->update($request->all());
@@ -57,7 +57,7 @@ class NotesController extends Controller
         return redirect()->route('notes.index')->with('success', 'Note updated succesfully');
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $note = Note::findOrFail($id);
         $note->delete();
