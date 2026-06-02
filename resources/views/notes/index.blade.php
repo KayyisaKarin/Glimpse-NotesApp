@@ -26,7 +26,8 @@
                     </button>
                 </a>
                 {{-- Add Button --}}
-                <button onclick="openAddModal()" class="bg-brand-purple hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
+                <button onclick="openAddModal()"
+                    class="bg-brand-purple hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
                     <i class="ri-add-line text-lg"></i>Add Category
                 </button>
             </div>
@@ -81,7 +82,8 @@
 
                 <div class="space-y-3">
                     @forelse ($categories as $cat)
-                        <div class="flex items-center justify-between border-2  rounded-xl px-4 py-3 bg-white group transition-all hover:bg-brand-yellow/70 hover:border-gray-400/80 select-none">
+                        <div
+                            class="flex items-center justify-between border-2  rounded-xl px-4 py-3 bg-white group transition-all hover:bg-brand-yellow/70 hover:border-gray-400/80 select-none">
                             <span class="font-bold text-gray-900 text-sm">{{ $cat->name }}</span>
                             <div class="flex gap-2">
                                 {{-- Edit Button --}}
@@ -164,8 +166,7 @@
     <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
         <div class="bg-white rounded-3xl shadow-xl w-full max-w-sm overflow-hidden border-2 ">
             <div class="p-6 text-center">
-                <div
-                    class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="ri-delete-bin-fill text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-extrabold text-gray-900 mb-2">Delete Category?</h3>

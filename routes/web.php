@@ -23,7 +23,6 @@ Route::middleware('auth')->controller(NotesController::class)->group(function ()
     Route::get('/notes', 'index')->name('notes.index');
     Route::get('/notes/create', 'create')->name('notes.create');
     Route::post('/notes', 'store')->name('notes.store');
-    Route::get('/notes/{note}', 'show')->name('notes.show');
     Route::get('/notes/{note}/edit', 'edit')->name('notes.edit');
     Route::put('/notes/{note}', 'update')->name('notes.update');
     Route::delete('/notes/{note}', 'destroy')->name('notes.destroy');

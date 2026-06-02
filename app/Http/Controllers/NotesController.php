@@ -19,7 +19,7 @@ class NotesController extends Controller
 
     public function create()
     {
-        $categories = Category::where('user_id', Auth::id())->get();
+        $categories = Category::all();
 
         return view('notes.create', compact('categories'));
     }
