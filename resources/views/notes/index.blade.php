@@ -71,19 +71,17 @@
                                 </p>
                             </div>
                             <div class="flex items-center justify-between space-x-2">
-                                <a href="{{ route('notes.edit', $note->id) }}">
-                                    <i
-                                        class="ri-edit-line block bg-brand-orange text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
-                                </a>
-                                <form action="{{ route('notes.destroy', $note->id) }}" method="POST" class="inline"
-                                    onsubmit="return confirm('Delete this note?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit">
-                                        <i
-                                            class="ri-delete-bin-7-line block bg-brand-red text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
-                                    </button>
-                                </form>
+                            <a href="{{ route('notes.edit', $note->id) }}">
+                                <i class="ri-edit-line block bg-brand-orange text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
+                            </a>
+                            <form action="{{ route('notes.destroy', $note->id) }}" method="POST" class="inline"
+                                onsubmit="return confirm('Delete this note?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">
+                                    <i class="ri-delete-bin-7-line block bg-brand-red text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
+                                </button>
+                            </form>
                             </div>
                         </div>
                     </div>

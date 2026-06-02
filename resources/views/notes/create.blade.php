@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        #richTextEditor:empty:before {
+            content: attr(placeholder);
+            display: block;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+
     <section class="px-10 py-10 overflow-hidden">
         {{-- Back --}}
         <a href="{{ route('notes.index') }}" class="bg-brand-purple pl-6 pr-8 py-2 text-white rounded-md inline-block mb-5">
@@ -12,11 +20,9 @@
         <form id="noteForm" action="{{ route('notes.store') }}" method="POST"
             class="w-full h-150 bg-brand-purple px-10 py-8 my-5 rounded-2xl flex flex-col overflow-hidden transition-colors duration-200">
             @csrf
-            @if ($note ?? false)
-                @method('PUT')
-            @endif
 
-            {{-- Header Row: Title and Category Dropdown --}}
+            <input type="hidden" name="content" id="hiddenNoteContent">
+
             <div class="flex items-center justify-between shrink-0">
                 <input value="{{ old('title') }}" name="title"
                     class="w-165 border-none bg-brand-purple text-white text-5xl font-bold placeholder:text-white/50 focus:outline-none transition-colors duration-200"
@@ -27,43 +33,32 @@
                     name="category_id" id="category">
                     <option value="" selected disabled>Category</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" class="text-gray-900"
-                            {{ old('category_id', $note->category_id ?? '') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
+                        <option value="{{ $category->id }}" class="text-gray-900">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
             @error('title')
-                <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-            @enderror
+                    <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+                @enderror
             @error('category_id')
-                <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-            @enderror
+                    <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+                @enderror
 
             <div class="flex items-center text-white/70 mt-1 ml-4 gap-2 shrink-0 border-b border-white/30 pb-2">
                 <i class="ri-calendar-event-fill text-xl"></i>
                 <span class="ml-2">Created at: {{ now()->format('F j, Y') }}</span>
             </div>
 
-            <div class="flex-1 flex flex-col my-4 mx-4 overflow-hidden">
-                <textarea name="content" id="contentTextArea"
-                    class="w-full flex-1 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200 placeholder:text-white/50"
-                    placeholder="Write your notes here...">{{ old('content', $note->content ?? '') }}</textarea>
-
-                @error('content')
-                    <div
-                        class="flex items-center gap-1.5 text-red-200 text-xs font-semibold mt-2 ml-1 bg-red-500/20 px-3 py-1.5 rounded-lg w-fit border border-red-500/30">
-                        <i class="ri-error-warning-line"></i>
-                        <span>{{ $message }}</span>
-                    </div>
-                @enderror
+            <div class="flex-1 overflow-y-auto my-4">
+                <div id="richTextEditor" contenteditable="true" role="textbox" aria-multiline="true"
+                    class="w-full h-full min-h-20 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200"
+                    placeholder="Write your notes here...">{{ old('content') }}</div>
+                
             </div>
             @error('content')
-                <p class="mb-2 px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-            @enderror
+                    <p class="mb-2 px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+                @enderror
 
-            {{-- Bottom Toolbar Controls --}}
             <div class="flex items-center justify-between shrink-0">
                 <div class="flex gap-3">
 
@@ -71,16 +66,23 @@
                     <div class="relative">
                         <select id="colorPicker"
                             class="h-12 border-none bg-white text-gray-800 font-semibold rounded-xl px-4 pr-10 appearance-none focus:outline-none cursor-pointer shadow-sm">
-                            <option value="bg-brand-purple"
-                                {{ old('bg_color', $note->bg_color ?? '') == 'bg-brand-purple' ? 'selected' : '' }}> Purple
-                            </option>
-                            <option value="bg-brand-blue"
-                                {{ old('bg_color', $note->bg_color ?? '') == 'bg-brand-blue' ? 'selected' : '' }}> Blue
-                            </option>
-                            <option value="bg-brand-green"
-                                {{ old('bg_color', $note->bg_color ?? '') == 'bg-brand-green' ? 'selected' : '' }}> Green
-                            </option>
+                            <option value="bg-brand-purple" selected> Purple</option>
+                            <option value="bg-brand-blue"> Blue</option>
+                            <option value="bg-brand-green"> Green</option>
                         </select>
+
+                    </div>
+
+                    <div class="flex bg-white rounded-xl p-1 shadow-sm h-12 items-center border border-gray-100">
+                        <button type="button" onclick="formatText('bold')"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition font-bold text-lg"
+                            title="Bold">B</button>
+                        <button type="button" onclick="formatText('italic')"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition italic font-serif text-lg"
+                            title="Italic">I</button>
+                        <button type="button" onclick="formatText('underline')"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition underline text-lg"
+                            title="Underline">U</button>
                     </div>
                 </div>
 
@@ -92,45 +94,43 @@
                 </div>
             </div>
         </form>
-
-        {{-- 💡 SAFE SEPARATE DELETE FORM (Keeps HTML clean and error handling functioning) --}}
-        @if ($note ?? false)
-            <form id="deleteForm" action="{{ route('notes.destroy', $note->id) }}" method="POST" class="hidden"
-                onsubmit="return confirm('Are you sure you want to delete this note? This action cannot be undone.');">
-                @csrf
-                @method('DELETE')
-            </form>
-        @endif
     </section>
 
-
     <script>
+        function formatText(style) {
+            document.execCommand(style, false, null);
+            document.getElementById('richTextEditor').focus();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const colorPicker = document.getElementById('colorPicker');
             const noteForm = document.getElementById('noteForm');
             const noteTitle = noteForm.querySelector('input[name="title"]');
-            const contentTextarea = document.getElementById('contentTextArea');
+            const richTextEditor = document.getElementById('richTextEditor');
+            const hiddenContentInput = document.getElementById('hiddenNoteContent');
+            const selectedBgColor = document.getElementById('selectedBgColor');
 
             const colorClasses = ['bg-brand-purple', 'bg-brand-blue', 'bg-brand-green'];
 
-            function updateNoteTheme(selectedColor) {
+            colorPicker.addEventListener('change', function() {
+                const selectedColor = this.value;
+
                 colorClasses.forEach(cls => {
                     noteForm.classList.remove(cls);
                     noteTitle.classList.remove(cls);
-                    contentTextarea.classList.remove(cls);
+                    richTextEditor.classList.remove(cls);
                 });
 
                 noteForm.classList.add(selectedColor);
                 noteTitle.classList.add(selectedColor);
-                contentTextarea.classList.add(selectedColor);
-            }
+                richTextEditor.classList.add(selectedColor);
 
-            if (colorPicker) {
-                updateNoteTheme(colorPicker.value);
-            }
+                // Simpan warna yang dipilih ke hidden input
+                selectedBgColor.value = selectedColor;
+            });
 
-            colorPicker.addEventListener('change', function() {
-                updateNoteTheme(this.value);
+            noteForm.addEventListener('submit', function() {
+                hiddenContentInput.value = richTextEditor.innerHTML;
             });
         });
     </script>
