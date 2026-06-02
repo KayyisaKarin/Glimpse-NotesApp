@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Note;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class NotesController extends Controller
 {
@@ -65,6 +63,6 @@ class NotesController extends Controller
     {
         $note = Note::findOrFail($id);
         $note->delete();
-        return redirect(route('notes.index'))->with('success','Note deletes succesfully');
+        return redirect(route('notes.index'))->with('success','Note deleted succesfully');
     }
 }
