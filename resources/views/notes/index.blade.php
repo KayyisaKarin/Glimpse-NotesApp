@@ -26,7 +26,8 @@
                     </button>
                 </a>
                 {{-- Add Button --}}
-                <button onclick="openAddModal()" class="bg-brand-purple hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
+                <button onclick="openAddModal()"
+                    class="bg-brand-purple hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
                     <i class="ri-add-line text-lg"></i>Add Category
                 </button>
             </div>
@@ -44,34 +45,52 @@
 
             {{-- NOTES SECTION (Left) --}}
             <div class="grid col-span-2 grid-cols-2 gap-5 overflow-y-auto scrollbar-none max-h-135">
-                @forelse($notes ?? [] as $note)
-                    <div class="w-75 h-58 {{ $note->bg_color }} rounded-xl px-4 py-4 flex flex-col">
+                @forelse ($notes as $note)
+                    <div class="w-75 h-58 rounded-xl px-4 py-4 flex flex-col {{ $note->bg_color ?? 'bg-brand-purple' }}">
                         <!-- Header -->
                         <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                            <h1 class="text-white text-lg font-bold">{{ $note->title }}</h1>
-                            <p class="text-sm text-white/50">{{ $note->created_at->format('M j, Y') }}</p>
+                            <h1 class="text-white text-lg font-bold truncate">{{ $note->title }}</h1>
+                            <p class="text-sm text-white/50">{{ $note->created_at->format('d/m/Y') }}</p>
                         </div>
 
-                        <!-- Content -->
+                        <!-- Content - TAMPILKAN FORMAT HTML -->
                         <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                            <p class="text-white text-sm">{!! \Illuminate\Support\Str::limit(strip_tags($note->content), 200) !!}</p>
+                            <div class="text-white text-sm prose prose-invert max-w-none">
+                                @php
+                                    $limitedContent = Str::limit($note->content, 150);
+                                @endphp
+                                {!! $limitedContent !!}
+                            </div>
                         </div>
 
                         <!-- Footer -->
                         <div class="flex items-center justify-between shrink-0">
                             <div>
-                                @if($note->category)
-                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">{{ $note->category->name }}</p>
-                                @endif
+                                <p class="px-4 py-1.5 bg-white/30 text-white text-xs rounded-full">
+                                    {{ $note->category->name ?? 'Uncategorized' }}
+                                </p>
                             </div>
-                            <a href="{{ route('notes.show', $note->id) }}"
-                                class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
-                                Detail
-                            </a>
+                            <div class="flex items-center justify-between space-x-2">
+                                <a href="{{ route('notes.edit', $note->id) }}">
+                                    <i
+                                        class="ri-edit-line block bg-brand-orange text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
+                                </a>
+                                <form action="{{ route('notes.destroy', $note->id) }}" method="POST" class="inline"
+                                    onsubmit="return confirm('Delete this note?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">
+                                        <i
+                                            class="ri-delete-bin-7-line block bg-brand-red text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @empty
-                    <p class="text-gray-400 text-sm text-center py-4 col-span-2">No notes yet.</p>
+                    <div class="col-span-2 text-center py-10 bg-white/50 rounded-xl">
+                        <p class="text-gray-500">No notes yet. Click "Add Note" to create one!</p>
+                    </div>
                 @endforelse
             </div>
 
@@ -81,7 +100,8 @@
 
                 <div class="space-y-3">
                     @forelse ($categories as $cat)
-                        <div class="flex items-center justify-between border-2  rounded-xl px-4 py-3 bg-white group transition-all hover:bg-brand-yellow/70 hover:border-gray-400/80 select-none">
+                        <div
+                            class="flex items-center justify-between border-2  rounded-xl px-4 py-3 bg-white group transition-all hover:bg-brand-yellow/70 hover:border-gray-400/80 select-none">
                             <span class="font-bold text-gray-900 text-sm">{{ $cat->name }}</span>
                             <div class="flex gap-2">
                                 {{-- Edit Button --}}
@@ -164,8 +184,7 @@
     <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
         <div class="bg-white rounded-3xl shadow-xl w-full max-w-sm overflow-hidden border-2 ">
             <div class="p-6 text-center">
-                <div
-                    class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="ri-delete-bin-fill text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-extrabold text-gray-900 mb-2">Delete Category?</h3>

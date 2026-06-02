@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Notes extends Model
+class Note extends Model
 {
     protected $fillable = [
         'category_id',
         'title',
         'content',
-        'bg_color',
+        'bg_color'
     ];
 
     public function user()
