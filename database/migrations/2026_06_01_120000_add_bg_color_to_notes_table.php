@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('title', 150);
-            $table->text('content')->nullable();
-            $table->timestamps();
+        Schema::table('notes', function (Blueprint $table) {
+            $table->string('bg_color')->default('#6017EC')->after('content');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notes');
+        Schema::table('notes', function (Blueprint $table) {
+            $table->dropColumn('bg_color');
+        });
     }
 };

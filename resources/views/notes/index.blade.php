@@ -43,52 +43,36 @@
         {{-- 3. MAIN DASHBOARD CONTENT GRID --}}
         <div class="grid grid-cols-3 gap-6 max-w-7xl mx-auto items-start">
 
-            {{-- NOTES SECTION (Left) --}}
+            {{-- NOTES SECTION (Left) - Dummy data remains --}}
             <div class="grid col-span-2 grid-cols-2 gap-5 overflow-y-auto scrollbar-none max-h-135">
-                @forelse ($notes as $note)
-                    <div class="w-75 h-58 rounded-xl px-4 py-4 flex flex-col {{ $note->bg_color ?? 'bg-brand-purple' }}">
+                @forelse($notes ?? [] as $note)
+                    <div class="w-75 h-58 {{ $note->bg_color }} rounded-xl px-4 py-4 flex flex-col">
                         <!-- Header -->
                         <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                            <h1 class="text-white text-lg font-bold truncate">{{ $note->title }}</h1>
-                            <p class="text-sm text-white/50">{{ $note->created_at->format('d/m/Y') }}</p>
+                            <h1 class="text-white text-lg font-bold">{{ $note->title }}</h1>
+                            <p class="text-sm text-white/50">{{ $note->created_at->format('M j, Y') }}</p>
                         </div>
 
-                        <!-- Content - TAMPILKAN FORMAT HTML -->
+                        <!-- Content -->
                         <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                            <div class="text-white text-sm prose prose-invert max-w-none">
-                                @php
-                                    $limitedContent = Str::limit($note->content, 150);
-                                @endphp
-                                {!! $limitedContent !!}
-                            </div>
+                            <p class="text-white text-sm">{!! \Illuminate\Support\Str::limit(strip_tags($note->content), 200) !!}</p>
                         </div>
 
                         <!-- Footer -->
                         <div class="flex items-center justify-between shrink-0">
                             <div>
-                                <p class="px-4 py-1.5 bg-white/30 text-white text-xs rounded-full">
-                                    {{ $note->category->name ?? 'Uncategorized' }}
-                                </p>
+                                @if($note->category)
+                                    <p class="px-10 py-2 bg-white/50 text-white text-xs rounded-full">{{ $note->category->name }}</p>
+                                @endif
                             </div>
-                            <div class="flex items-center justify-between space-x-2">
-                            <a href="{{ route('notes.edit', $note->id) }}">
-                                <i class="ri-edit-line block bg-brand-orange text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
+                            <a href="{{ route('notes.show', $note) }}"
+                                class="px-6 py-1 bg-white text-brand-purple text-sm rounded-md transition-all hover:font-bold">
+                                Detail
                             </a>
-                            <form action="{{ route('notes.destroy', $note->id) }}" method="POST" class="inline"
-                                onsubmit="return confirm('Delete this note?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">
-                                    <i class="ri-delete-bin-7-line block bg-brand-red text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
-                                </button>
-                            </form>
-                            </div>
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-2 text-center py-10 bg-white/50 rounded-xl">
-                        <p class="text-gray-500">No notes yet. Click "Add Note" to create one!</p>
-                    </div>
+                    <p class="text-gray-400 text-sm text-center py-4 col-span-2">No notes yet.</p>
                 @endforelse
             </div>
 

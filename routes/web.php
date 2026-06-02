@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\CategoryController;
@@ -9,9 +11,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+
+Route::middleware('auth',)->controller(DashboardController::class)->group(function() {
+    Route::get('/dashboard', 'index')->name('dashboard'); 
+    Route::post('/dashboard/todo', 'store')->name('todo.store');
+    Route::delete('/dashboard/delete/{id}', 'destroy')->name('todo.destroy');
+});
 
 Route::middleware('auth')->controller(NotesController::class)->group(function ()  {
     Route::get('/notes', 'index')->name('notes.index');

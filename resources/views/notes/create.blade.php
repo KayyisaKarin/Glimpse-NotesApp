@@ -49,7 +49,7 @@
                 <span class="ml-2">Created at: {{ now()->format('F j, Y') }}</span>
             </div>
 
-            <div class="flex-1 overflow-y-auto my-4">
+            <div class="flex-1 overflow-y-auto my-4 mx-4">
                 <div id="richTextEditor" contenteditable="true" role="textbox" aria-multiline="true"
                     class="w-full h-full min-h-20 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200"
                     placeholder="Write your notes here...">{{ old('content') }}</div>
@@ -87,6 +87,14 @@
                 </div>
 
                 <div class="flex items-center gap-4 shrink-0">
+                    <form id="deleteForm" method="POST" class="flex-1">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="bg-brand-red text-black px-8 py-3 font-semibold rounded-xl hover:bg-red-700 active:scale-98 transition shadow-sm">
+                            Delete Note
+                        </button>
+                    </form>
                     <button type="submit"
                         class="bg-brand-yellow text-black px-8 py-3 font-semibold rounded-xl hover:bg-brand-orange active:scale-98 transition shadow-sm">
                         Save Note
