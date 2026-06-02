@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class NotesController extends Controller
 {
@@ -15,25 +14,17 @@ class NotesController extends Controller
         $categories = Category::all();
         $notes = Note::with('category')->latest()->get();
 
-        return view('notes.index', compact('categories'), compact('notes'));
+        return view('notes.index', compact('categories', 'notes'));
     }
 
     public function create()
     {
         $categories = Category::all();
-
         return view('notes.create', compact('categories'));
-<<<<<<< Updated upstream
-        
-=======
->>>>>>> Stashed changes
     }
 
     public function store(Request $request)
     {
-        // dd($request->all());
-
-<<<<<<< Updated upstream
         $request->validate([
             'title' => 'required|string|max:150',
             'content' => 'required|string',
@@ -48,50 +39,28 @@ class NotesController extends Controller
             'bg_color' => $request->bg_color ?? 'bg-brand-purple'
         ]);
 
-        return redirect(route('notes.index'))->with('success', 'Note added succesfully');
-    }
-
-    public function edit(int $id)
-    {
-        $categories =  Category::all();
-        $note = Note::with('category')->findOrFail($id);
-        return view('notes.edit', compact('categories', 'note'));
-    }
-
-    public function update(Request $request, int $id)
-    {
-        $note = Note::findOrFail($id);
-        $note->update($request->all());
-        return redirect(route('notes.index'))->with('success', 'Note updated succesfully');
-    }
-
-    public function destroy(int $id)
-    {
-        $note = Note::findOrFail($id);
-        $note->delete();
-        return redirect(route('notes.index'))->with('success','Note deletes succesfully');
-=======
-        Note::create([
-            'category_id'   => $request->category_id,
-            'title'         => $request->title,
-        ]);
-
-        return redirect(route('admin.book.index'))->with('success', 'Buku berhasil ditambahkan');
-    }
-
-    public function show($id)
-    {
-
+        return redirect()->route('notes.index')->with('success', 'Note added succesfully');
     }
 
     public function edit($id)
     {
-
+        $categories = Category::all();  // ← perbaiki ini
+        $note = Note::with('category')->findOrFail($id);
+        return view('notes.edit', compact('categories', 'note'));  // ← perbaiki compact
     }
 
     public function update(Request $request, $id)
     {
+        $note = Note::findOrFail($id);
+        $note->update($request->all());
+        
+        return redirect()->route('notes.index')->with('success', 'Note updated succesfully');
+    }
 
->>>>>>> Stashed changes
+    public function destroy($id)
+    {
+        $note = Note::findOrFail($id);
+        $note->delete();
+        return redirect()->route('notes.index')->with('success', 'Note deleted succesfully');
     }
 }
