@@ -10,15 +10,18 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap"
         rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+        integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="shortcut icon" href="{{ asset('assets/Logo.png') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
         integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
 
@@ -44,13 +47,11 @@
             @yield('content')
         </main>
 
-        {{-- SIDEBAR --}}
         <aside
-            class="w-72 bg-white border-l shrink-0 font-['Plus_Jakarta_Sans'] flex flex-col justify-between overflow-y-auto">
+            class="w-72 bg-white border-l min-h-screen shrink-0 font-['Plus_Jakarta_Sans'] flex flex-col justify-between">
             <div class="p-6">
-                <div class="flex items-center justify-center gap-3 mt-6 mb-12 select-none">
-                    <img src="{{ asset('assets/logo.svg') }}" alt="Glimpse Logo" class="w-10 h-10">
-                    <h1 class="text-2xl font-bold text-brand-blue">Glimpse</h1>
+                <div class="flex items-center justify-center scale-80 gap-3 mt-6 mb-12 select-none">
+                    <img src="{{ asset('assets/glimpse-logo-text.png') }}" alt="Glimpse Logo">
                 </div>
 
                 <nav class="py-8 flex flex-col gap-2">
@@ -77,6 +78,10 @@
             <div class="bg-[#1d63ed] p-4 text-white rounded-t-none">
                 <div class="flex items-center gap-3 mb-4 px-1.5 py-1">
                     <div
+                {{-- Logout Button - Using ri-logout-box-r-line --}}
+                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    @csrf
+                    <button type="submit" class="w-full bg-[#eb4343] hover:bg-red-600 active:scale-98 text-white font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-start gap-2.5 shadow-sm transition-all cursor-pointer">
                         class="w-11 h-11 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 select-none text-gray-500">
                         <i class="ri-user-line text-xl"></i>
                     </div>
