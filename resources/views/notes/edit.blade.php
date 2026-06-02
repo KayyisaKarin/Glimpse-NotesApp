@@ -25,7 +25,7 @@
 
             <div class="flex items-center justify-between shrink-0">
                 <input value="{{ old('title', $note->title) }}" name="title"
-                    class="w-165 border-none text-white text-5xl placeholder:text-white/50 focus:outline-none transition-colors duration-200 {{ $note->bg_color ?? 'bg-brand-purple' }}"
+                    class="w-165 border-none text-white text-5xl font-bold placeholder:text-white/50 focus:outline-none transition-colors duration-200 {{ $note->bg_color ?? 'bg-brand-purple' }}"
                     type="text" placeholder="Notes Title">
 
                 <select
@@ -74,6 +74,17 @@
                         </select>
                     </div>
 
+                    <div class="flex bg-white rounded-xl p-1 shadow-sm h-12 items-center border border-gray-100">
+                        <button type="button" onclick="formatText('bold')"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition font-bold text-lg"
+                            title="Bold">B</button>
+                        <button type="button" onclick="formatText('italic')"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition italic font-serif text-lg"
+                            title="Italic">I</button>
+                        <button type="button" onclick="formatText('underline')"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition underline text-lg"
+                            title="Underline">U</button>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-4 shrink-0">
@@ -87,7 +98,10 @@
     </section>
 
     <script>
-
+        function formatText(style) {
+            document.execCommand(style, false, null);
+            document.getElementById('richTextEditor').focus();
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             const colorPicker = document.getElementById('colorPicker');
