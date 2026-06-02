@@ -61,6 +61,6 @@ class NotesController extends Controller
     {
         $note = Note::findOrFail($id);
         $note->delete();
-        return redirect()->route('notes.index')->with('success', 'Note deleted succesfully');
+        return redirect(route('notes.index'))->with('success','Note deleted succesfully');
     }
 }

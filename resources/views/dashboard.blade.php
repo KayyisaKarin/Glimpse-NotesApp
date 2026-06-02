@@ -58,61 +58,47 @@
                     {{-- notes kuning --}}
                     <div
                         class="bg-[#FDE047] text-black font-semibold flex flex-row justify-between py-3 px-6 text-xl rounded-xl w-full">
-                        <h3>All Notes</h3>
-                        <span>10</span>
+                        <h3>Total Notes</h3>
+                        <span>{{ $totalNotes }}</span>
                     </div>
-                    {{-- card latets notes --}}
+                    {{-- card latest notes --}}
                     <div class="border-[#1761EC] border rounded-2xl p-6 bg-white">
                         <div class="flex flex-row justify-between items-center mt-4 mb-8">
                             <h2 class="text-3xl font-bold">Your Latest Notes</h2>
-                            <span class="text-white bg-[#1761EC] px-3 py-2 rounded-lg">
+                            <a href="{{ route('notes.create') }}" class="text-white bg-[#1761EC] px-3 py-2 rounded-lg">
                                 <i class="ri-add-large-line"></i>
-                            </span>
+                            </a>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-2 font-['Plus_Jakarta_Sans']">
-                            <div class="bg-[#1761EC] p-6 rounded-2xl text-white">
-                                <div class=" flex flex-row justify-between items-center border-b-2 border-white/40 pb-2">
-                                    <h4 class="text-xl font-semibold">Glimpse Screens</h4>
-                                    <span class="opacity-90">April 21</span>
+                        <div class="grid grid-cols-3 gap-4 font-['Plus_Jakarta_Sans']">
+                            @forelse ($latestNotes as $note)
+                                <div class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white">
+                                    <div class="p-5 flex flex-col justify-between h-full">
+                                        <div class="mb-4">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <h4 class="text-xl font-semibold truncate">{{ $note->title }}</h4>
+                                                <span class="opacity-90 text-sm">{{ $note->created_at->format('d/m/Y') }}</span>
+                                            </div>
+                                            <div class="text-sm opacity-90 leading-relaxed prose prose-invert max-w-none">
+                                                @php
+                                                    $limitedContent = Str::limit(strip_tags($note->content), 120);
+                                                @endphp
+                                                {{ $limitedContent }}
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-4">
+                                            <span class="px-3 py-1 bg-white/20 rounded-full text-xs">{{ $note->category->name ?? 'Uncategorized' }}</span>
+                                            <a href="{{ route('notes.edit', $note->id) }}"
+                                                class="bg-white/20 text-white px-3 py-1 rounded-lg text-xs hover:bg-white/30 transition">Edit</a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="py-4 text-sm opacity-85">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi eius delectus quidem
-                                    iste eaque esse ullam incidunt iure corporis veritatis.
+                            @empty
+                                <div class="col-span-3 text-center py-10 bg-gray-50 rounded-2xl">
+                                    <p class="text-gray-500">No notes yet. Create your first note to see it here.</p>
                                 </div>
-                                <a href="#">
-                                    <button
-                                        class="bg-white py-2 px-6 text-[#1761EC] font-semibold flex justify-end rounded-lg">Detail</button>
-                                </a>
-                            </div>
-                            <div class="bg-[#1761EC] p-6 rounded-2xl text-white">
-                                <div class=" flex flex-row justify-between items-center border-b-2 border-white/40 pb-2">
-                                    <h4 class="text-xl font-semibold">Glimpse Screens</h4>
-                                    <span class="opacity-90">April 21</span>
-                                </div>
-                                <div class="py-4 text-sm opacity-85">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi eius delectus quidem
-                                    iste eaque esse ullam incidunt iure corporis veritatis.
-                                </div>
-                                <a href="#">
-                                    <button
-                                        class="bg-white py-2 px-6 text-[#1761EC] font-semibold flex justify-end rounded-lg">Detail</button>
-                                </a>
-                            </div>
-                            <div class="bg-[#1761EC] p-6 rounded-2xl text-white">
-                                <div class=" flex flex-row justify-between items-center border-b-2 border-white/40 pb-2">
-                                    <h4 class="text-xl font-semibold">Glimpse Screens</h4>
-                                    <span class="opacity-90">April 21</span>
-                                </div>
-                                <div class="py-4 text-sm opacity-85">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi eius delectus quidem
-                                    iste eaque esse ullam incidunt iure corporis veritatis.
-                                </div>
-                                <a href="#">
-                                    <button
-                                        class="bg-white py-2 px-6 text-[#1761EC] font-semibold flex justify-end rounded-lg">Detail</button>
-                                </a>
-                            </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
