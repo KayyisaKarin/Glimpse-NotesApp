@@ -96,31 +96,35 @@
                 {{-- col kanan --}}
                 <div class="w-full max-w-sm flex flex-col gap-4">
                     {{-- Activity This Week --}}
-                    <div class="rounded-xl overflow-hidden bg-white flex flex-col border-2 border-gray-200">
+
+                    <div class="rounded-xl overflow-hidden bg-white flex flex-col border-2 border-gray-200 ">
                         <h3 class="bg-[#1761EC] overflow-hidden text-white font-['Rethink_Sans'] font-semibold p-4 text-xl">
                             Upcoming Events</h3>
-                        <div id="event-list-wrapper" class="p-4 flex flex-col gap-2">
-                            @forelse($events as $event)
-                                <div class="event-item flex gap-2 p-2 relative items-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300 cursor-pointer"
-                                    data-event-id="{{ $event->id }}" data-event-title="{{ $event->title }}"
-                                    data-event-date="{{ $event->date }}">
-                                    <div class="w-10 h-10 bg-[#1761EC] rounded-lg"></div>
-                                    <div class="flex flex-col">
-                                        <p class="font-semibold">{{ $event->title }}</p>
-                                        <span
-                                            class="text-xs">{{ \Carbon\Carbon::parse($event->date)->translatedFormat('l, F j') }}</span>
+                        <div class="flex-1 overflow-y-auto scrollbar-none">
+                            <div id="event-list-wrapper" class="max-h-35 p-4 flex flex-col gap-2">
+                                @forelse($events as $event)
+                                    <div class="event-item flex gap-2 p-2 relative items-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300 cursor-pointer"
+                                        data-event-id="{{ $event->id }}" data-event-title="{{ $event->title }}"
+                                        data-event-date="{{ $event->date }}">
+                                        <div class="w-10 h-10 bg-[#1761EC] rounded-lg"></div>
+                                        <div class="flex flex-col">
+                                            <p class="font-semibold">{{ $event->title }}</p>
+                                            <span
+                                                class="text-xs">{{ \Carbon\Carbon::parse($event->date)->translatedFormat('l, F j') }}</span>
+                                        </div>
+                                        <i class="ri-more-2-fill text-lg right-4 absolute"></i>
                                     </div>
-                                    <i class="ri-more-2-fill text-lg right-4 absolute"></i>
-                                </div>
-                            @empty
-                                <div class="text-gray-400 text-sm text-center py-2">No upcoming events</div>
-                            @endforelse
+                                @empty
+                                    <div class="text-gray-400 text-sm text-center py-2">No upcoming events</div>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
 
                     {{-- To-Do List --}}
                     <div id="todo-container"
                         class="rounded-xl overflow-hidden bg-white flex flex-col border-2 border-gray-200">
+                        {{-- Header --}}
                         <div class="bg-[#1761EC] text-white flex flex-row p-4 justify-between items-center">
                             <h3 class="font-semibold text-xl">To-Do List</h3>
                             <button id="add-task-btn"
@@ -129,46 +133,48 @@
                             </button>
                         </div>
 
+                        {{-- Body / Scrollable Area --}}
                         <div class="flex-1 overflow-y-auto scrollbar-none">
-                        <div id="todo-list-wrapper" class="p-4 flex flex-col gap-2 max-h-50">
-                            @forelse ($todos as $todo)
-                                <div x-data="{ completed: {{ $todo->is_completed ? 'true' : 'false' }} }"
-                                    class="todo-item flex items-center justify-between gap-4 cursor-pointer group select-none">
+                            <div id="todo-list-wrapper" class="p-4 flex flex-col gap-2 max-h-27">
+                                @forelse ($todos as $todo)
+                                    <div x-data="{ completed: {{ $todo->is_completed ? 'true' : 'false' }} }"
+                                        class="todo-item flex items-center justify-between gap-4 cursor-pointer group select-none">
 
-                                    <div class="flex items-center gap-3">
-                                        <input type="checkbox" x-model="completed"
-                                            @change="fetch('{{ route('todo.toggle', $todo->id) }}', {
-                           method: 'PATCH',
-                           headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                           body: JSON.stringify({ is_completed: completed })
-                       })"
-                                            class="todo-checkbox border-2 border-gray-300 rounded-md w-5 h-5 checked:bg-[#1761EC] checked:border-[#1761EC] focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer appearance-none after:text-white after:text-xs after:font-bold after:hidden checked:after:block">
+                                        {{-- Checkbox & Text --}}
+                                        <div class="flex items-center gap-3">
+                                            <input type="checkbox" x-model="completed"
+                                                @change="fetch('{{ route('todo.toggle', $todo->id) }}', {
+                                method: 'PATCH',
+                                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                body: JSON.stringify({ is_completed: completed }) 
+                            })"
+                                                class="todo-checkbox border-2 border-gray-300 rounded-md w-5 h-5 checked:bg-[#1761EC] checked:border-[#1761EC] focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer appearance-none after:text-white after:text-xs after:font-bold after:hidden checked:after:block">
 
-                                        <span
-                                            class="todo-text text-gray-800 font-medium text-base transition-all group-hover:text-gray-600"
-                                            :class="{ 'line-through': completed }">
-                                            {{ $todo->title }}
-                                        </span>
+                                            <span
+                                                class="todo-text text-gray-800 font-medium text-base transition-all group-hover:text-gray-600"
+                                                :class="{ 'line-through': completed }">
+                                                {{ $todo->title }}
+                                            </span>
+                                        </div>
+
+
+                                        <form action="{{ route('todo.destroy', $todo->id) }}" method="POST"
+                                            onsubmit="return confirm('Delete this todo?');" class="m-0">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" x-show="completed" x-transition
+                                                class="bg-transparent border-none p-0 cursor-pointer transition-all duration-300 ease-in-out hover:scale-120">
+                                                <i class="ri-close-circle-line text-brand-red text-xl"></i>
+                                            </button>
+                                        </form>
                                     </div>
+                                @empty
 
-                                    <form action="{{ route('todo.destroy', $todo->id) }}" method="POST" class="m-0">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" x-show="completed" x-transition
-                                            @click="if(confirm('Delete this todo?')) fetch('{{ route('todo.destroy', $todo->id) }}', {
-                        method: 'DELETE',
-                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
-                    }).then(() => location.reload())"
-                                            class="bg-transparent border-none p-0 cursor-pointer transition-all duration-300 ease-in-out hover:scale-120">
-                                            <i class="ri-close-circle-line text-brand-red text-xl"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            @empty
-                                <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List
-                                    Yet</span>
-                            @endforelse
-                        </div>
+                                    <div class="text-gray-400 text-sm text-center py-4 w-full">
+                                        You Don't Have any To-do List Yet
+                                    </div>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
 

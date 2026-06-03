@@ -181,7 +181,7 @@
                         <p class="text-brand-purple text-center text-lg px-4 py-4">My school notes have never more organized and aesthetic! The vibrant colors and intuitive interface makes note-taking an experience.</p>
                         <p
                             class="text-brand-purple text-center text-xl font-semibold transition-all duration-500 ease-in-out group-hover:text-2xl">
-                            Clover, Student</p>
+                            Yuuki, Artist</p>
                     </div>
                 </div>
             </div>
