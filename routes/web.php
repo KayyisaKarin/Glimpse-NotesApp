@@ -16,6 +16,9 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::middleware('auth', )->controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard');
     Route::post('/dashboard/todo', 'store')->name('todo.store');
+    Route::post('/dashboard/event', 'storeEvent')->name('events.store');
+    Route::patch('/dashboard/event/{id}', 'updateEvent')->name('events.update');
+    Route::delete('/dashboard/event/{id}', 'destroyEvent')->name('events.destroy');
     Route::delete('/dashboard/delete/{id}', 'destroy')->name('todo.destroy');
     Route::patch('/dashboard/todo/{id}/toggle', 'toggle')->name('todo.toggle');
 });
