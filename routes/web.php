@@ -13,13 +13,14 @@ Route::get('/', function () {
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 
-Route::middleware('auth',)->controller(DashboardController::class)->group(function() {
-    Route::get('/dashboard', 'index')->name('dashboard'); 
+Route::middleware('auth', )->controller(DashboardController::class)->group(function () {
+    Route::get('/dashboard', 'index')->name('dashboard');
     Route::post('/dashboard/todo', 'store')->name('todo.store');
     Route::delete('/dashboard/delete/{id}', 'destroy')->name('todo.destroy');
+    Route::patch('/dashboard/todo/{id}/toggle', 'toggle')->name('todo.toggle');
 });
 
-Route::middleware('auth')->controller(NotesController::class)->group(function ()  {
+Route::middleware('auth')->controller(NotesController::class)->group(function () {
     Route::get('/notes', 'index')->name('notes.index');
     Route::get('/notes/create', 'create')->name('notes.create');
     Route::post('/notes', 'store')->name('notes.store');
@@ -40,4 +41,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

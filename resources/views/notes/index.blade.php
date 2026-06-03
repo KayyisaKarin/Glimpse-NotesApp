@@ -50,7 +50,7 @@
                             <p class="text-sm text-white/50">{{ $note->created_at->format('d/m/Y') }}</p>
                         </div>
 
-                        <!-- Content - TAMPILKAN FORMAT HTML -->
+                        <!-- Content -->
                         <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
                             <div class="text-white text-sm prose prose-invert max-w-none">
                                 @php
@@ -88,23 +88,6 @@
                     </div>
                 @endforelse
             </div>
-            <form id="editForm" method="POST" class="p-6">
-                @csrf
-                @method('PUT')
-                <div class="mb-5">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Category Name</label>
-                    <input id="editName" name="name" type="text" required
-                        class="w-full px-4 py-3 rounded-xl border-2  bg-gray-50 focus:outline-none focus:bg-white transition-all">
-                </div>
-                <div class="flex gap-3">
-                    <button type="button" onclick="closeModal('editModal')"
-                        class="flex-1 px-4 py-3 rounded-xl border-2  font-bold text-gray-700 hover:bg-gray-50 transition-all">Cancel</button>
-                    <button type="submit"
-                        class="flex-1 px-4 py-3 rounded-xl bg-brand-blue text-white font-bold transition-all">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
             {{-- COL 3: CATEGORY SIDEBAR SECTION (Right) --}}
             <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 min-h-135">
