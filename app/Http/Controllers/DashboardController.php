@@ -14,7 +14,12 @@ class DashboardController extends Controller
         $todos = Todo::all(); //mengambil semua data todo
         $latestNotes = Note::with('category')->latest()->limit(3)->get();
         $totalNotes = Note::count();
-        $events = Events::whereDate('date', '>=', now()->toDateString())->orderBy('date')->get();
+
+        $events = Events::all();
+        $events = Events::where('date', '>=', now()->toDateString())
+                   ->orderBy('date', 'asc') // Sekalian diurutin dari yang paling dekat
+                   ->get();
+
         return view('dashboard', compact('todos', 'latestNotes', 'totalNotes', 'events'));
     }
 
