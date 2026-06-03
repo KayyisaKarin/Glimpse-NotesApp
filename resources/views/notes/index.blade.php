@@ -2,9 +2,6 @@
 
 @section('content')
     <div class="py-4 px-6 font-['Plus_Jakarta_Sans']">
-
-
-
         {{-- 1. BANNER HEADER --}}
         <div class="max-w-8xl mx-auto mb-6">
             <img src="{{ asset('assets/note-header.svg') }}" alt="Note Header" class="w-full object-cover rounded-3xl">

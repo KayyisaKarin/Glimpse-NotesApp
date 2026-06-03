@@ -77,12 +77,10 @@
 
             <div class="bg-[#1d63ed] p-4 text-white rounded-t-none">
                 <div class="flex items-center gap-3 mb-4 px-1.5 py-1">
-                    <div
                 {{-- Logout Button - Using ri-logout-box-r-line --}}
                 <form method="POST" action="{{ route('logout') }}" class="w-full">
                     @csrf
                     <button type="submit" class="w-full bg-[#eb4343] hover:bg-red-600 active:scale-98 text-white font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-start gap-2.5 shadow-sm transition-all cursor-pointer">
-                        class="w-11 h-11 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 select-none text-gray-500">
                         <i class="ri-user-line text-xl"></i>
                     </div>
                     <div class="truncate">
@@ -91,6 +89,8 @@
                         </h3>
                     </div>
                 </div>
+                
+                </form>
 
                 {{-- Form submission handles the secure POST request --}}
                 <form method="POST" action="{{ route('logout') }}" class="w-full">
