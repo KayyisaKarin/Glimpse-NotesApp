@@ -24,8 +24,8 @@
                             <span class="text-4xl font-bold block">{{ now()->format('d') }}</span>
                             <span class="text-lg opacity-80">{{ now()->format('l') }}</span>
                         </div>
-                        <button id="add-event-btn mt-4"
-                            class="bg-[#ff9f1c] hover:bg-[#f19719] text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer z-10">
+                        <button id="add-event-btn"
+                            class="mt-4 bg-[#ff9f1c] hover:bg-[#f19719] text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer z-10">
                             + Add Event
                         </button>
                     </div>
@@ -35,7 +35,7 @@
                                 <h3 class="font-bold">{{ now()->translatedFormat('F Y') }}</h3>
                             </div>
                             <div class="grid grid-cols-7 gap-2 mt-2 text-center text-xs">
-                                @foreach (['S', 'S', 'R', 'K', 'J', 'S', 'M'] as $day)
+                                @foreach (['M', 'T', 'W', 'T', 'F', 'S', 'S'] as $day)
                                     <span class="text-black/30">{{ $day }}</span>
                                 @endforeach
                             </div>
@@ -104,15 +104,21 @@
                         <h3 class="bg-[#1761EC] overflow-hidden text-white font-['Rethink_Sans'] font-semibold p-4 text-xl">
                             Upcoming Events</h3>
                         <div id="event-list-wrapper" class="p-4 flex flex-col gap-2">
-                            <div
-                                class="flex gap-2 p-2 relative items-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300">
-                                <div class="w-10 h-10 bg-[#1761EC] rounded-lg"></div>
-                                <div class="flex flex-col">
-                                    <p class="font-semibold">Ied Al-Adha</p>
-                                    <span class="text-xs">Wednesday, May 27</span>
+                            @forelse($events as $event)
+                                <div class="event-item flex gap-2 p-2 relative items-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300 cursor-pointer"
+                                    data-event-id="{{ $event->id }}" data-event-title="{{ $event->title }}"
+                                    data-event-date="{{ $event->date }}">
+                                    <div class="w-10 h-10 bg-[#1761EC] rounded-lg"></div>
+                                    <div class="flex flex-col">
+                                        <p class="font-semibold">{{ $event->title }}</p>
+                                        <span
+                                            class="text-xs">{{ \Carbon\Carbon::parse($event->date)->translatedFormat('l, F j') }}</span>
+                                    </div>
+                                    <i class="ri-more-2-fill text-lg right-4 absolute"></i>
                                 </div>
-                                <i class="ri-more-2-fill text-lg right-4 absolute"></i>
-                            </div>
+                            @empty
+                                <div class="text-gray-400 text-sm text-center py-2">No upcoming events</div>
+                            @endforelse
                         </div>
                     </div>
 
@@ -127,7 +133,8 @@
                             </button>
                         </div>
 
-                        <div id="todo-list-wrapper" class="p-4 flex flex-col gap-2">
+                        <div class="flex-1 overflow-y-auto scrollbar-none">
+                        <div id="todo-list-wrapper" class="p-4 flex flex-col gap-2 max-h-50">
                             @forelse ($todos as $todo)
                                 <div x-data="{ completed: {{ $todo->is_completed ? 'true' : 'false' }} }"
                                     class="todo-item flex items-center justify-between gap-4 cursor-pointer group select-none">
@@ -166,6 +173,7 @@
                                     Yet</span>
                             @endforelse
                         </div>
+                        </div>
                     </div>
 
                     {{-- MODAL ADD TASK --}}
@@ -201,23 +209,36 @@
                     {{-- MODAL ADD EVENT --}}
                     <div id="event-modal"
                         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 invisible opacity-0 transition-all duration-300">
+                        <div id="modal-overlay-event" class="absolute inset-0"></div>
                         <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-xl border border-gray-100 transition-all scale-95 duration-300"
                             id="event-modal-content">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-black font-bold text-2xl tracking-tight">Add New Event</h3>
+                                <h3 id="event-modal-title" class="text-black font-bold text-2xl tracking-tight">Add New
+                                    Event</h3>
                                 <button id="close-event-modal-btn"
                                     class="text-gray-400 hover:text-gray-600 font-bold text-sm cursor-pointer">✕</button>
                             </div>
-                            <input type="text" id="new-event-input" placeholder="Event name (e.g. Study Session)..."
-                                class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-3 text-base">
-                            <input type="text" id="event-date-input" readonly
-                                class="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-4 text-gray-600 mb-5 text-sm cursor-not-allowed">
-                            <div class="flex justify-center">
-                                <button id="submit-event-btn"
-                                    class="bg-[#ff9f1c] hover:bg-amber-600 text-white font-bold px-8 py-2.5 rounded-lg shadow-md transition-colors cursor-pointer text-sm">
-                                    Add Event
-                                </button>
-                            </div>
+
+                            <form action="{{ route('events.store') }}" method="POST" id="event-form">
+                                @csrf
+                                <input type="hidden" name="_method" id="event-form-method" value="POST">
+                                <input type="text" id="event-title-input" name="title"
+                                    placeholder="Event name (e.g. Study Session)..." required
+                                    class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-3 text-base">
+                                <input type="date" id="event-date-input" name="date" required
+                                    class="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-4 text-gray-600 mb-5 text-sm">
+                                <div class="flex justify-between items-center gap-3">
+                                    <button type="submit" id="submit-event-btn"
+                                        class="bg-[#ff9f1c] hover:bg-amber-600 text-white font-bold px-8 py-2.5 rounded-lg shadow-md transition-colors cursor-pointer text-sm">Add
+                                        Event</button>
+                                    <button type="button" id="delete-event-btn"
+                                        class="hidden bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-2.5 rounded-lg shadow-md transition-colors cursor-pointer text-sm">Delete</button>
+                                </div>
+                            </form>
+                            <form id="event-delete-form" action="" method="POST" class="hidden">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                         </div>
                     </div>
 
@@ -252,6 +273,97 @@
             openBtn.addEventListener('click', openModal);
             closeBtn.addEventListener('click', closeModal);
             overlay.addEventListener('click', closeModal);
+
+            // Event modal handlers
+            const eventModal = document.getElementById('event-modal');
+            const eventModalContent = document.getElementById('event-modal-content');
+            const openEventBtn = document.getElementById('add-event-btn');
+            const closeEventBtn = document.getElementById('close-event-modal-btn');
+            const eventOverlay = document.getElementById('modal-overlay-event');
+
+            function openEventModal() {
+                eventModal.classList.remove('invisible', 'opacity-0');
+                eventModal.classList.add('visible', 'opacity-100');
+                eventModalContent.classList.remove('scale-95');
+                eventModalContent.classList.add('scale-100');
+            }
+
+            function closeEventModal() {
+                eventModal.classList.remove('visible', 'opacity-100');
+                eventModal.classList.add('invisible', 'opacity-0');
+                eventModalContent.classList.remove('scale-100');
+                eventModalContent.classList.add('scale-95');
+            }
+
+            const eventForm = document.getElementById('event-form');
+            const eventModalTitle = document.getElementById('event-modal-title');
+            const eventTitleInput = document.getElementById('event-title-input');
+            const eventDateInput = document.getElementById('event-date-input');
+            const eventFormMethod = document.getElementById('event-form-method');
+            const eventDeleteBtn = document.getElementById('delete-event-btn');
+            const eventDeleteForm = document.getElementById('event-delete-form');
+            const eventFormSubmitButton = document.getElementById('submit-event-btn');
+            const eventItems = document.querySelectorAll('.event-item');
+            const eventStoreAction = '{{ route('events.store') }}';
+            const eventActionBase = "{{ url('/dashboard/event') }}";
+
+            function openEventModal() {
+                eventModal.classList.remove('invisible', 'opacity-0');
+                eventModal.classList.add('visible', 'opacity-100');
+                eventModalContent.classList.remove('scale-95');
+                eventModalContent.classList.add('scale-100');
+            }
+
+            function openAddEventModal() {
+                eventModalTitle.textContent = 'Add New Event';
+                eventForm.action = eventStoreAction;
+                eventFormMethod.value = 'POST';
+                eventTitleInput.value = '';
+                eventDateInput.value = '';
+                eventFormSubmitButton.textContent = 'Add Event';
+                eventDeleteBtn.classList.add('hidden');
+                eventDeleteForm.action = '';
+                openEventModal();
+            }
+
+            function openEditEventModal(id, title, date) {
+                eventModalTitle.textContent = 'Edit Event';
+                eventForm.action = `${eventActionBase}/${id}`;
+                eventFormMethod.value = 'PATCH';
+                eventTitleInput.value = title;
+                eventDateInput.value = date;
+                eventFormSubmitButton.textContent = 'Update Event';
+                eventDeleteBtn.classList.remove('hidden');
+                eventDeleteForm.action = `${eventActionBase}/${id}`;
+                openEventModal();
+            }
+
+            function closeEventModal() {
+                eventModal.classList.remove('visible', 'opacity-100');
+                eventModal.classList.add('invisible', 'opacity-0');
+                eventModalContent.classList.remove('scale-100');
+                eventModalContent.classList.add('scale-95');
+            }
+
+            openEventBtn.addEventListener('click', openAddEventModal);
+            closeEventBtn.addEventListener('click', closeEventModal);
+            eventOverlay.addEventListener('click', closeEventModal);
+
+            eventDeleteBtn.addEventListener('click', function() {
+                if (!eventDeleteForm.action) {
+                    return;
+                }
+                if (confirm('Delete this event?')) {
+                    eventDeleteForm.submit();
+                }
+            });
+
+            eventItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    openEditEventModal(this.dataset.eventId, this.dataset.eventTitle, this.dataset
+                        .eventDate);
+                });
+            });
         });
     </script>
 @endsection

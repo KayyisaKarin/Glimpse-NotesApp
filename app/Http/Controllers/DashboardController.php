@@ -14,7 +14,8 @@ class DashboardController extends Controller
         $todos = Todo::all(); //mengambil semua data todo
         $latestNotes = Note::with('category')->latest()->limit(3)->get();
         $totalNotes = Note::count();
-        return view('dashboard', compact('todos', 'latestNotes', 'totalNotes'));
+        $events = Events::whereDate('date', '>=', now()->toDateString())->orderBy('date')->get();
+        return view('dashboard', compact('todos', 'latestNotes', 'totalNotes', 'events'));
     }
 
     public function store(Request $request)
@@ -39,10 +40,47 @@ class DashboardController extends Controller
         return redirect()->route('dashboard')->with('success', 'Data deleted succesfully.');
     }
 
-    public function toggle(Request $request, $id)
+    public function toggle(Request $request, int $id)
     {
         $todo = Todo::findOrFail($id);
         $todo->update(['is_completed' => $request->is_completed]);
         return response()->json(['success' => true]);
+    }
+
+    public function storeEvent(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+        ]);
+
+        Events::create([
+            'title' => $validated['title'],
+            'date' => $validated['date'],
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Event added successfully!');
+    }
+
+    public function updateEvent(Request $request, int $id)
+    {
+        $event = Events::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+        ]);
+
+        $event->update($validated);
+
+        return redirect()->route('dashboard')->with('success', 'Event updated successfully!');
+    }
+
+    public function destroyEvent(int $id)
+    {
+        $event = Events::findOrFail($id);
+        $event->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Event deleted successfully.');
     }
 }
