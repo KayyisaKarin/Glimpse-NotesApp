@@ -9,10 +9,20 @@ use Illuminate\Support\Facades\Auth;
 
 class NotesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $categories = Category::all();
-        $notes = Note::with('category')->latest()->get();
+        $query = Note::with('category')->latest();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%");
+            });
+        }
+
+        $notes = $query->get();
 
         return view('notes.index', compact('categories', 'notes'));
     }
@@ -29,7 +39,7 @@ class NotesController extends Controller
             'title' => 'required|string|max:150',
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'bg_color' => 'nullable|string' 
+            'bg_color' => 'nullable|string'
         ]);
 
         Note::create([
@@ -44,16 +54,16 @@ class NotesController extends Controller
 
     public function edit(int $id)
     {
-        $categories = Category::all();  // ← perbaiki ini
+        $categories = Category::all();
         $note = Note::with('category')->findOrFail($id);
-        return view('notes.edit', compact('categories', 'note'));  // ← perbaiki compact
+        return view('notes.edit', compact('categories', 'note'));
     }
 
     public function update(Request $request, int $id)
     {
         $note = Note::findOrFail($id);
         $note->update($request->all());
-        
+
         return redirect()->route('notes.index')->with('success', 'Note updated succesfully');
     }
 
@@ -61,6 +71,6 @@ class NotesController extends Controller
     {
         $note = Note::findOrFail($id);
         $note->delete();
-        return redirect(route('notes.index'))->with('success','Note deleted succesfully');
+        return redirect(route('notes.index'))->with('success', 'Note deleted succesfully');
     }
 }

@@ -123,7 +123,8 @@
                             </button>
                         </div>
 
-                        <div id="todo-list-wrapper" class="p-4 flex flex-col gap-2">
+                        <div class="flex-1 overflow-y-auto scrollbar-none">
+                        <div id="todo-list-wrapper" class="p-4 flex flex-col gap-2 max-h-50">
                             @forelse ($todos as $todo)
                                 <div x-data="{ completed: {{ $todo->is_completed ? 'true' : 'false' }} }"
                                     class="todo-item flex items-center justify-between gap-4 cursor-pointer group select-none">
@@ -161,6 +162,7 @@
                                 <span class="text-gray-400 text-sm text-center py-2">You Don't Have any To-do List
                                     Yet</span>
                             @endforelse
+                        </div>
                         </div>
                     </div>
 
