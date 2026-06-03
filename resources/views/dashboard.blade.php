@@ -52,7 +52,7 @@
             </div>
 
             {{-- bawah header --}}
-            <div class="flex flex-row gap-6">
+            <div class="flex flex-row gap-6 overflow-hidden">
                 {{-- col kiri --}}
                 <div class="flex flex-col gap-4 flex-1">
                     {{-- notes kuning --}}
@@ -62,7 +62,7 @@
                         <span>{{ $totalNotes }}</span>
                     </div>
                     {{-- card latest notes --}}
-                    <div class="border-[#1761EC] border rounded-2xl p-6 bg-white">
+                    <div class="border-[#1761EC] border rounded-2xl p-6 bg-white max-h-70">
                         <div class="flex flex-row justify-between items-center mt-4 mb-8">
                             <h2 class="text-3xl font-bold">Your Latest Notes</h2>
                             <a href="{{ route('notes.create') }}" class="text-white bg-[#1761EC] px-3 py-2 rounded-lg">
@@ -70,7 +70,7 @@
                             </a>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-4 font-['Plus_Jakarta_Sans']">
+                        <div class="grid col-span-2 grid-cols-3 gap-5 overflow-y-auto scrollbar-none max-h-70">
                             @forelse ($latestNotes as $note)
                                 <div
                                     class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white max-h-135">
