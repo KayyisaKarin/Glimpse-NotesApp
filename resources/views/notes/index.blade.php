@@ -12,11 +12,18 @@
 
         {{-- 2. CONTROL ROW --}}
         <div class="flex items-center justify-between gap-5 max-w-8xl mx-auto mb-6">
-            <div class="flex-1 max-w-xl relative">
+            <form action="{{ route('notes.index') }}" method="GET" class="flex-1 max-w-xl relative">
                 <i class="ri-search-2-line absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-700"></i>
-                <input type="text" placeholder="Search"
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Search notes by title or content..."
                     class="w-full bg-white text-gray-700 font-medium px-10 py-3.5 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/50 transition-all text-lg">
-            </div>
+                @if (request('search'))
+                    <a href="{{ route('notes.index') }}"
+                        class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                        <i class="ri-close-circle-line text-xl"></i>
+                    </a>
+                @endif
+            </form>
 
             <div class="flex items-center gap-4 shrink-0">
                 <a href="{{ route('notes.create') }}">
@@ -44,52 +51,71 @@
         <div class="grid grid-cols-3 gap-6 max-w-7xl mx-auto items-start">
 
             {{-- NOTES SECTION (Left) --}}
-            <div class="grid col-span-2 grid-cols-2 gap-5 overflow-y-auto scrollbar-none max-h-135">
-                @forelse ($notes as $note)
-                    <div class="w-75 h-58 rounded-xl px-4 py-4 flex flex-col {{ $note->bg_color ?? 'bg-brand-purple' }}">
-                        <!-- Header -->
-                        <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
-                            <h1 class="text-white text-lg font-bold truncate">{{ $note->title }}</h1>
-                            <p class="text-sm text-white/50">{{ $note->created_at->format('d/m/Y') }}</p>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
-                            <div class="text-white text-sm prose prose-invert max-w-none">
-                                @php
-                                    $limitedContent = Str::limit($note->content, 150);
-                                @endphp
-                                {!! $limitedContent !!}
-                            </div>
-                        </div>
-
-                        <!-- Footer -->
-                        <div class="flex items-center justify-between shrink-0">
-                            <div>
-                                <p class="px-4 py-1.5 bg-white/30 text-white text-xs rounded-full">
-                                    {{ $note->category->name ?? 'Uncategorized' }}
-                                </p>
-                            </div>
-                            <div class="flex items-center justify-between space-x-2">
-                            <a href="{{ route('notes.edit', $note->id) }}">
-                                <i class="ri-edit-line block bg-brand-orange text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
-                            </a>
-                            <form action="{{ route('notes.destroy', $note->id) }}" method="POST" class="inline"
-                                onsubmit="return confirm('Delete this note?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">
-                                    <i class="ri-delete-bin-7-line block bg-brand-red text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
-                                </button>
-                            </form>
-                            </div>
-                        </div>
+            <div class="grid col-span-2 gap-5">
+                @if (request('search'))
+                    <div class="mb-2">
+                        <p class="text-gray-500 text-sm">
+                            Search results for: <span class="font-semibold text-gray-700">"{{ request('search') }}"</span>
+                            ({{ $notes->count() }} notes found)
+                        </p>
                     </div>
-                @empty
-                    <div class="col-span-2 text-center py-10 bg-white/50 rounded-xl">
-                        <p class="text-gray-500">No notes yet. Click "Add Note" to create one!</p>
-                    </div>
-                @endforelse
+                @endif
+                <div class="grid col-span-2 grid-cols-2 gap-5 overflow-y-auto scrollbar-none max-h-135">
+                    @forelse ($notes as $note)
+                        <div
+                            class="w-75 h-58 rounded-xl px-4 py-4 flex flex-col {{ $note->bg_color ?? 'bg-brand-purple' }}">
+                            <!-- Header -->
+                            <div class="flex items-center justify-between pb-2 border-b border-white shrink-0">
+                                <h1 class="text-white text-lg font-bold truncate">{{ $note->title }}</h1>
+                                <p class="text-sm text-white/50">{{ $note->created_at->format('d/m/Y') }}</p>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex-1 overflow-y-auto my-2 px-1 scrollbar-none">
+                                <div class="text-white text-sm prose prose-invert max-w-none">
+                                    @php
+                                        $limitedContent = Str::limit($note->content, 150);
+                                    @endphp
+                                    {!! $limitedContent !!}
+                                </div>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="flex items-center justify-between shrink-0">
+                                <div>
+                                    <p class="px-4 py-1.5 bg-white/30 text-white text-xs rounded-full">
+                                        {{ $note->category->name ?? 'Uncategorized' }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center justify-between space-x-2">
+                                    <a href="{{ route('notes.edit', $note->id) }}">
+                                        <i
+                                            class="ri-edit-line block bg-brand-orange text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
+                                    </a>
+                                    <form action="{{ route('notes.destroy', $note->id) }}" method="POST" class="inline"
+                                        onsubmit="return confirm('Delete this note?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit">
+                                            <i
+                                                class="ri-delete-bin-7-line block bg-brand-red text-white px-3 py-2 font-semibold rounded-lg shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-span-2 text-center py-10 bg-white/50 rounded-xl">
+                            @if (request('search'))
+                                <p class="text-gray-500">No notes found for "<strong>{{ request('search') }}</strong>".</p>
+                                <a href="{{ route('notes.index') }}"
+                                    class="text-brand-blue hover:underline mt-2 inline-block">Clear search</a>
+                            @else
+                                <p class="text-gray-500">No notes yet. Click "Add Note" to create one!</p>
+                            @endif
+                        </div>
+                    @endforelse
+                </div>
             </div>
 
             {{-- COL 3: CATEGORY SIDEBAR SECTION (Right) --}}
