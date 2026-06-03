@@ -8,19 +8,39 @@
         </div>
 
         {{-- 2. CONTROL ROW --}}
-        <div class="flex items-center justify-between gap-5 max-w-8xl mx-auto mb-6">
-            <form action="{{ route('notes.index') }}" method="GET" class="flex-1 max-w-xl relative">
-                <i class="ri-search-2-line absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-700"></i>
-                <input type="text" name="search" value="{{ request('search') }}"
-                    placeholder="Search notes by title or content..."
-                    class="w-full bg-white text-gray-700 font-medium px-10 py-3.5 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/50 transition-all text-lg">
-                @if (request('search'))
-                    <a href="{{ route('notes.index') }}"
-                        class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                        <i class="ri-close-circle-line text-xl"></i>
-                    </a>
-                @endif
-            </form>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-5 max-w-8xl mx-auto mb-6">
+            <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto flex-1">
+                <form action="{{ route('notes.index') }}" method="GET" class="flex-1 max-w-xl relative">
+                    <i class="ri-search-2-line absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-700"></i>
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        placeholder="Search notes by title or content..."
+                        class="w-full bg-white text-gray-700 font-medium px-10 py-3.5 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/50 transition-all text-lg">
+                    @if (request('search'))
+                        <a href="{{ route('notes.index', request()->except('search')) }}"
+                            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                            <i class="ri-close-circle-line text-xl"></i>
+                        </a>
+                    @endif
+                </form>
+
+                <form action="{{ route('notes.index') }}" method="GET" class="relative">
+                    @if (request('search'))
+                        <input type="hidden" name="search" value="{{ request('search') }}">
+                    @endif
+                    <select name="category_filter" onchange="this.form.submit()"
+                        class="bg-white text-gray-700 font-medium px-5 py-3.5 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/50 transition-all cursor-pointer appearance-none pr-10">
+                        <option value="all"
+                            {{ request('category_filter') == 'all' || !request('category_filter') ? 'selected' : '' }}>All
+                            Categories</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ request('category_filter') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
 
             <div class="flex items-center gap-4 shrink-0">
                 <a href="{{ route('notes.create') }}">
@@ -29,7 +49,6 @@
                         <i class="ri-add-line text-lg"></i> Add Note
                     </button>
                 </a>
-                {{-- Add Button --}}
                 <button onclick="openAddModal()"
                     class="bg-brand-purple hover:opacity-90 active:scale-98 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md transition-all text-base flex items-center gap-2 cursor-pointer">
                     <i class="ri-add-line text-lg"></i>Add Category
@@ -49,10 +68,20 @@
 
             {{-- NOTES SECTION (Left) --}}
             <div class="grid col-span-2 gap-5">
-                @if (request('search'))
+                @if (request('search') || request('category_filter'))
                     <div class="mb-2">
                         <p class="text-gray-500 text-sm">
-                            Search results for: <span class="font-semibold text-gray-700">"{{ request('search') }}"</span>
+                            @if (request('search'))
+                                Search results for: <span
+                                    class="font-semibold text-gray-700">"{{ request('search') }}"</span>
+                            @endif
+                            @if (request('search') && request('category_filter'))
+                                &nbsp;in category: <span
+                                    class="font-semibold text-gray-700">{{ $categories->where('id', request('category_filter'))->first()->name ?? 'Unknown' }}</span>
+                            @elseif (request('category_filter') && request('category_filter') != 'all')
+                                Showing category: <span
+                                    class="font-semibold text-gray-700">{{ $categories->where('id', request('category_filter'))->first()->name ?? 'Unknown' }}</span>
+                            @endif
                             ({{ $notes->count() }} notes found)
                         </p>
                     </div>
