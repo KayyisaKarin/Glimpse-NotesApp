@@ -22,6 +22,10 @@ class NotesController extends Controller
             });
         }
 
+        if ($request->filled('category_filter') && $request->category_filter != 'all') {
+            $query->where('category_id', $request->category_filter);
+        }
+
         $notes = $query->get();
 
         return view('notes.index', compact('categories', 'notes'));
