@@ -25,7 +25,7 @@
                             <span class="text-lg opacity-80">{{ now()->format('l') }}</span>
                         </div>
                         <button id="add-event-btn"
-                            class="mt-4 bg-[#ff9f1c] hover:bg-[#f19719] text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer z-10">
+                            class="mt-4 bg-[#ff9f1c] hover:bg-brand-orange-hover text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors cursor-pointer z-10">
                             + Add Event
                         </button>
                     </div>
@@ -64,12 +64,12 @@
                     <div class="border-[#1761EC] border rounded-2xl p-6 bg-white">
                         <div class="flex flex-row justify-between items-center mt-4 mb-8">
                             <h2 class="text-3xl font-bold">Your Latest Notes</h2> <a href="{{ route('notes.create') }}"
-                                class="text-white bg-[#1761EC] px-3 py-2 rounded-lg"> <i class="ri-add-large-line"></i> </a>
+                                class="text-white bg-brand-blue hover:bg-brand-purple transition-all duration-300 ease-in-out px-3 py-2 rounded-lg"> <i class="ri-add-large-line"></i> </a>
                         </div>
                         <div class="grid grid-cols-3 gap-4 font-['Plus_Jakarta_Sans']">
                             @forelse ($latestNotes as $note)
                                 <div
-                                    class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white">
+                                    class="rounded-2xl overflow-hidden shadow-sm {{ $note->bg_color ?? 'bg-brand-purple' }} text-white hover:opacity-90 transition-all duration-300">
                                     <div class="p-5 flex flex-col justify-between h-full">
                                         <div class="mb-4">
                                             <div class="flex items-center justify-between mb-3">
@@ -152,10 +152,10 @@
                                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                                 body: JSON.stringify({ is_completed: completed }) 
                             })"
-                                                class="todo-checkbox border-2 border-gray-300 rounded-md w-5 h-5 checked:bg-[#1761EC] checked:border-[#1761EC] focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer appearance-none after:text-white after:text-xs after:font-bold after:hidden checked:after:block">
+                                                class="todo-checkbox border-2 border-gray-300 rounded-md w-5 h-5 hover:bg-brand-blue/30 checked:bg-[#1761EC] checked:border-[#1761EC] focus:ring-0 focus:ring-offset-0 transition-all cursor-pointer appearance-none after:text-white after:text-xs after:font-bold after:hidden checked:after:block">
 
                                             <span
-                                                class="todo-text text-gray-800 font-medium text-base transition-all group-hover:text-gray-600"
+                                                class="todo-text text-gray-800 font-medium text-base transition-all group-hover:text-gray-500"
                                                 :class="{ 'line-through': completed }">
                                                 {{ $todo->title }}
                                             </span>

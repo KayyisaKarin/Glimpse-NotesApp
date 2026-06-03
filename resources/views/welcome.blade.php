@@ -23,9 +23,9 @@
         </div>
         <div class="flex space-x-2">
             <a href="{{ route('login') }}"
-                class="bg-brand-blue text-white px-6 py-1 rounded-lg transition-all hover:opacity-90">login</a>
+                class="bg-brand-blue font-base text-white px-6 py-1 rounded-lg transition-all hover:bg-brand-purple">Login</a>
             <a href="{{ route('login', ['mode' => 'register']) }}"
-                class="bg-brand-blue text-white px-6 py-1 rounded-lg transition-all hover:opacity-90">register</a>
+                class="bg-brand-blue text-white px-6 py-1 rounded-lg transition-all hover:bg-brand-purple">Register</a>
         </div>
     </header>
 
@@ -224,7 +224,7 @@
                 <h3 class="font-rethink bold text-4xl text-white">We make note-taking simple, colorful, and easy to
                     enjoy every day.</h3>
                 <a href="{{ route('dashboard') }}"
-                    class="bg-brand-yellow font-semibold text-lg text-center px-8 py-3 rounded-lg transition-all hover:opacity-90 lg:text-left">
+                    class="bg-brand-yellow font-semibold text-lg text-center px-8 py-3 rounded-lg transition-all hover:bg-brand-orange hover:text-xl lg:text-left">
                     Start Now!
                 </a>
             </div>

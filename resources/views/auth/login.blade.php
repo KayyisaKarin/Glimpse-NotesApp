@@ -46,7 +46,7 @@
                 </h1>
             </div>
 
-            <div class="relative w-full h-full min-h-[660px]">
+            <div class="relative w-full h-full min-h-165">
 
                 <div class="absolute inset-x-0 top-0 grid grid-cols-1 md:grid-cols-2 mt-8 mx-4 md:mx-10 gap-5" x-show="isLogin">
                     <div class="md:ml-12 ml-0">
