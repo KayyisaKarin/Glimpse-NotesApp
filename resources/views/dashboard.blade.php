@@ -77,7 +77,11 @@
                                                     class="opacity-90 text-sm">{{ $note->created_at->format('d/m/Y') }}</span>
                                             </div>
                                             <div class="text-sm opacity-90 leading-relaxed prose prose-invert max-w-none">
-                                                @php                                                    $limitedContent = Str::limit(strip_tags($note->content), 120);                                                @endphp {{ $limitedContent }} </div>
+                                                @php
+                                                    $limitedContent = Str::limit($note->content, 150);
+                                                @endphp
+                                                {!! $limitedContent !!}
+                                            </div>
                                         </div>
                                         <div class="flex items-center justify-between mt-4"> <span
                                                 class="px-3 py-1 bg-white/20 rounded-full text-xs">{{ $note->category->name ?? 'Uncategorized' }}</span>

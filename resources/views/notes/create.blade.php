@@ -38,11 +38,11 @@
                 </select>
             </div>
             @error('title')
-                    <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-                @enderror
+                <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+            @enderror
             @error('category_id')
-                    <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-                @enderror
+                <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+            @enderror
 
             <div class="flex items-center text-white/70 mt-1 ml-4 gap-2 shrink-0 border-b border-white/30 pb-2">
                 <i class="ri-calendar-event-fill text-xl"></i>
@@ -53,11 +53,11 @@
                 <div id="richTextEditor" contenteditable="true" role="textbox" aria-multiline="true"
                     class="w-full h-full min-h-20 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200"
                     placeholder="Write your notes here...">{{ old('content') }}</div>
-                
+
             </div>
             @error('content')
-                    <p class="mb-2 px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-                @enderror
+                <p class="mb-2 px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
+            @enderror
 
             <div class="flex items-center justify-between shrink-0">
                 <div class="flex gap-3">
