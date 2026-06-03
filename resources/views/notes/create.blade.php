@@ -1,14 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-        #richTextEditor:empty:before {
-            content: attr(placeholder);
-            display: block;
-            color: rgba(255, 255, 255, 0.5);
-        }
-    </style>
-
     <section class="px-10 py-10 overflow-hidden">
         {{-- Back --}}
         <a href="{{ route('notes.index') }}" class="bg-brand-purple pl-6 pr-8 py-2 text-white rounded-md inline-block mb-5">
@@ -21,7 +13,7 @@
             class="w-full h-150 bg-brand-purple px-10 py-8 my-5 rounded-2xl flex flex-col overflow-hidden transition-colors duration-200">
             @csrf
 
-            <input type="hidden" name="content" id="hiddenNoteContent">
+            <input type="hidden" name="bg_color" id="selectedBgColor" value="bg-brand-purple">
 
             <div class="flex items-center justify-between shrink-0">
                 <input value="{{ old('title') }}" name="title"
@@ -29,7 +21,7 @@
                     type="text" placeholder="Notes Title">
 
                 <select
-                    class="border-none px-5 pr-9 py-1 bg-white/50 text-white rounded-full focus:outline-none cursor-pointer"
+                    class="border-none px-3 pl-4 py-1 bg-white/50 text-white rounded-full focus:outline-none cursor-pointer"
                     name="category_id" id="category">
                     <option value="" selected disabled>Category</option>
                     @foreach ($categories as $category)
@@ -50,10 +42,9 @@
             </div>
 
             <div class="flex-1 overflow-y-auto my-4">
-                <div id="richTextEditor" contenteditable="true" role="textbox" aria-multiline="true"
-                    class="w-full h-full min-h-20 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200"
-                    placeholder="Write your notes here...">{{ old('content') }}</div>
-
+                <textarea id="contentEditor" name="content" rows="12"
+                    class="w-full h-full min-h-20 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200 placeholder:text-white/60"
+                    placeholder="Write your notes here...">{{ old('content') }}</textarea>
             </div>
             @error('content')
                 <p class="mb-2 px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
@@ -73,17 +64,6 @@
 
                     </div>
 
-                    <div class="flex bg-white rounded-xl p-1 shadow-sm h-12 items-center border border-gray-100">
-                        <button type="button" onclick="formatText('bold')"
-                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition font-bold text-lg"
-                            title="Bold">B</button>
-                        <button type="button" onclick="formatText('italic')"
-                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition italic font-serif text-lg"
-                            title="Italic">I</button>
-                        <button type="button" onclick="formatText('underline')"
-                            class="w-10 h-10 flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition underline text-lg"
-                            title="Underline">U</button>
-                    </div>
                 </div>
 
                 <div class="flex items-center gap-4 shrink-0">
@@ -97,17 +77,11 @@
     </section>
 
     <script>
-        function formatText(style) {
-            document.execCommand(style, false, null);
-            document.getElementById('richTextEditor').focus();
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             const colorPicker = document.getElementById('colorPicker');
             const noteForm = document.getElementById('noteForm');
             const noteTitle = noteForm.querySelector('input[name="title"]');
-            const richTextEditor = document.getElementById('richTextEditor');
-            const hiddenContentInput = document.getElementById('hiddenNoteContent');
+            const contentEditor = document.getElementById('contentEditor');
             const selectedBgColor = document.getElementById('selectedBgColor');
 
             const colorClasses = ['bg-brand-purple', 'bg-brand-blue', 'bg-brand-green'];
@@ -118,19 +92,15 @@
                 colorClasses.forEach(cls => {
                     noteForm.classList.remove(cls);
                     noteTitle.classList.remove(cls);
-                    richTextEditor.classList.remove(cls);
+                    contentEditor.classList.remove(cls);
                 });
 
                 noteForm.classList.add(selectedColor);
                 noteTitle.classList.add(selectedColor);
-                richTextEditor.classList.add(selectedColor);
+                contentEditor.classList.add(selectedColor);
 
                 // Simpan warna yang dipilih ke hidden input
                 selectedBgColor.value = selectedColor;
-            });
-
-            noteForm.addEventListener('submit', function() {
-                hiddenContentInput.value = richTextEditor.innerHTML;
             });
         });
     </script>
