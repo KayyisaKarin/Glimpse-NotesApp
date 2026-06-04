@@ -63,7 +63,7 @@
                     </div>
                     <div class="border-[#1761EC] border rounded-2xl p-6 bg-white">
                         <div class="flex flex-row justify-between items-center mt-4 mb-8">
-                            <h2 class="text-3xl font-bold">Your Latest Notes</h2> <a href="{{ route('notes.create') }}"
+                            <h2 class="text-3xl font-bold">Your Latest Notes</h2> <a href="{{ route('notes.index') }}"
                                 class="text-white bg-brand-blue hover:bg-brand-purple transition-all duration-300 ease-in-out px-3 py-2 rounded-lg">
                                 <i class="ri-add-large-line"></i> </a>
                         </div>
