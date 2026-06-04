@@ -54,7 +54,7 @@
                                 class="text-white bg-brand-purple rounded-lg pr-6.5 px-2">in <i>!</i></span></h1>
                     </div>
 
-                    <div class="mt-9">
+                    <div class="mt-3">
                         <form action="{{ route('login') }}" method="POST" class="flex flex-col">
                             @csrf
                             <h2 class="font-medium">Email</h2>

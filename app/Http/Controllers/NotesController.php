@@ -65,6 +65,13 @@ class NotesController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $request->validate([
+            'title' => 'required|string|max:150',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'bg_color' => 'nullable|string'
+        ]);
+
         $note = Note::findOrFail($id);
         $note->update($request->all());
 

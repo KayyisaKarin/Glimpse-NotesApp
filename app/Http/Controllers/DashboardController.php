@@ -26,7 +26,7 @@ class DashboardController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|min:1|max:30',
         ]);
 
         Todo::create([
@@ -55,8 +55,8 @@ class DashboardController extends Controller
     public function storeEvent(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'date' => 'required|date',
+            'title' => 'required|string|min:1|max:255',
+            'date' => 'required|date|date_format:Y-m-d',
         ]);
 
         Events::create([
@@ -72,8 +72,8 @@ class DashboardController extends Controller
         $event = Events::findOrFail($id);
 
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'date' => 'required|date',
+            'title' => 'required|string|min:1|max:255',
+            'date' => 'required|date|date_format:Y-m-d',
         ]);
 
         $event->update($validated);

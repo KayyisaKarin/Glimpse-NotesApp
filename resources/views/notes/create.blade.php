@@ -29,12 +29,6 @@
                     @endforeach
                 </select>
             </div>
-            @error('title')
-                <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-            @enderror
-            @error('category_id')
-                <p class="px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-            @enderror
 
             <div class="flex items-center text-white/70 mt-1 ml-4 gap-2 shrink-0 border-b border-white/30 pb-2">
                 <i class="ri-calendar-event-fill text-xl"></i>
@@ -46,9 +40,6 @@
                     class="w-full h-full min-h-20 border-none bg-brand-purple text-white focus:outline-none resize-none overflow-y-auto outline-none transition-colors duration-200 placeholder:text-white/60"
                     placeholder="Write your notes here...">{{ old('content') }}</textarea>
             </div>
-            @error('content')
-                <p class="mb-2 px-2 py-1 bg-brand-red text-white text-xs mt-1 rounded-md">{{ $message }}</p>
-            @enderror
 
             <div class="flex items-center justify-between shrink-0">
                 <div class="flex gap-3">
@@ -67,7 +58,7 @@
                 </div>
 
                 <div class="flex items-center gap-4 shrink-0">
-                    <button type="submit"
+                    <button type="submit" id="saveNoteBtn"
                         class="bg-brand-yellow text-black px-8 py-3 font-semibold rounded-xl hover:bg-brand-orange active:scale-98 transition shadow-sm">
                         Save Note
                     </button>
@@ -82,9 +73,31 @@
             const noteForm = document.getElementById('noteForm');
             const noteTitle = noteForm.querySelector('input[name="title"]');
             const contentEditor = document.getElementById('contentEditor');
+            const categorySelect = document.getElementById('category');
             const selectedBgColor = document.getElementById('selectedBgColor');
+            const saveNoteBtn = document.getElementById('saveNoteBtn');
 
             const colorClasses = ['bg-brand-purple', 'bg-brand-blue', 'bg-brand-green'];
+
+            // Function to validate and update button state
+            function validateForm() {
+                const titleValue = noteTitle.value.trim();
+                const contentValue = contentEditor.value.trim();
+                const categoryValue = categorySelect.value;
+
+                if (titleValue.length > 0 && contentValue.length > 0 && categoryValue) {
+                    saveNoteBtn.disabled = false;
+                    saveNoteBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    saveNoteBtn.disabled = true;
+                    saveNoteBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            // Validate on input change
+            noteTitle.addEventListener('input', validateForm);
+            contentEditor.addEventListener('input', validateForm);
+            categorySelect.addEventListener('change', validateForm);
 
             colorPicker.addEventListener('change', function() {
                 const selectedColor = this.value;
@@ -102,6 +115,9 @@
                 // Simpan warna yang dipilih ke hidden input
                 selectedBgColor.value = selectedColor;
             });
+
+            // Initial validation
+            validateForm();
         });
     </script>
 @endsection

@@ -64,7 +64,8 @@
                     <div class="border-[#1761EC] border rounded-2xl p-6 bg-white">
                         <div class="flex flex-row justify-between items-center mt-4 mb-8">
                             <h2 class="text-3xl font-bold">Your Latest Notes</h2> <a href="{{ route('notes.create') }}"
-                                class="text-white bg-brand-blue hover:bg-brand-purple transition-all duration-300 ease-in-out px-3 py-2 rounded-lg"> <i class="ri-add-large-line"></i> </a>
+                                class="text-white bg-brand-blue hover:bg-brand-purple transition-all duration-300 ease-in-out px-3 py-2 rounded-lg">
+                                <i class="ri-add-large-line"></i> </a>
                         </div>
                         <div class="grid grid-cols-3 gap-4 font-['Plus_Jakarta_Sans']">
                             @forelse ($latestNotes as $note)
@@ -193,15 +194,18 @@
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-[#1761EC] font-bold text-2xl tracking-tight">Add New To-do List</h3>
                                 <button id="close-modal-btn"
-                                    class="text-gray-400 hover:text-gray-600 font-bold text-sm cursor-pointer">✕</button>
+                                    class="text-gray-400 hover:text-gray-600 font-bold text-sm cursor-pointer">✕
+                                </button>
                             </div>
 
                             {{-- Menghubungkan Form ke Laravel Backend --}}
                             <form action="{{ route('todo.store') }}" method="POST">
                                 @csrf
                                 <input type="text" id="new-task-input" name="title"
-                                    placeholder="Enter your task here..." required autocomplete="off"
+                                    placeholder="Enter your task here..." autocomplete="off"
+                                    value="{{ old('title') }}"
                                     class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-5 text-base">
+                                
                                 <div class="flex justify-center">
                                     <button type="submit" id="submit-task-btn"
                                         class="bg-[#1761EC] hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-lg shadow-md transition-colors cursor-pointer text-sm">
@@ -229,10 +233,14 @@
                                 @csrf
                                 <input type="hidden" name="_method" id="event-form-method" value="POST">
                                 <input type="text" id="event-title-input" name="title"
-                                    placeholder="Event name (e.g. Study Session)..." required
+                                    placeholder="Event name (e.g. Study Session)..." 
+                                    value="{{ old('title') }}"
                                     class="w-full bg-[#f1f3f4] border border-gray-200 rounded-lg py-3 px-4 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-300 mb-3 text-base">
-                                <input type="date" id="event-date-input" name="date" required
+
+                                <input type="date" id="event-date-input" name="date"
+                                    value="{{ old('date') }}"
                                     class="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-4 text-gray-600 mb-5 text-sm">
+
                                 <div class="flex justify-between items-center gap-3">
                                     <button type="submit" id="submit-event-btn"
                                         class="bg-[#ff9f1c] hover:bg-amber-600 text-white font-bold px-8 py-2.5 rounded-lg shadow-md transition-colors cursor-pointer text-sm">Add
@@ -276,7 +284,29 @@
                 modalContent.classList.add('scale-95');
             }
 
-            openBtn.addEventListener('click', openModal);
+            const newTaskInput = document.getElementById('new-task-input');
+            const submitTaskBtn = document.getElementById('submit-task-btn');
+
+            // Function to validate and update todo button state
+            function validateTodoForm() {
+                const titleValue = newTaskInput.value.trim();
+                if (titleValue.length > 0) {
+                    submitTaskBtn.disabled = false;
+                    submitTaskBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    submitTaskBtn.disabled = true;
+                    submitTaskBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            // Validate on input change
+            newTaskInput.addEventListener('input', validateTodoForm);
+
+            openBtn.addEventListener('click', function() {
+                newTaskInput.value = '';
+                validateTodoForm();
+                openModal();
+            });
             closeBtn.addEventListener('click', closeModal);
             overlay.addEventListener('click', closeModal);
 
@@ -313,12 +343,23 @@
             const eventStoreAction = '{{ route('events.store') }}';
             const eventActionBase = "{{ url('/dashboard/event') }}";
 
-            function openEventModal() {
-                eventModal.classList.remove('invisible', 'opacity-0');
-                eventModal.classList.add('visible', 'opacity-100');
-                eventModalContent.classList.remove('scale-95');
-                eventModalContent.classList.add('scale-100');
+            // Function to validate and update event button state
+            function validateEventForm() {
+                const titleValue = eventTitleInput.value.trim();
+                const dateValue = eventDateInput.value.trim();
+                
+                if (titleValue.length > 0 && dateValue.length > 0) {
+                    eventFormSubmitButton.disabled = false;
+                    eventFormSubmitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    eventFormSubmitButton.disabled = true;
+                    eventFormSubmitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                }
             }
+
+            // Validate on input change
+            eventTitleInput.addEventListener('input', validateEventForm);
+            eventDateInput.addEventListener('change', validateEventForm);
 
             function openAddEventModal() {
                 eventModalTitle.textContent = 'Add New Event';
@@ -329,6 +370,7 @@
                 eventFormSubmitButton.textContent = 'Add Event';
                 eventDeleteBtn.classList.add('hidden');
                 eventDeleteForm.action = '';
+                validateEventForm();
                 openEventModal();
             }
 
@@ -341,14 +383,8 @@
                 eventFormSubmitButton.textContent = 'Update Event';
                 eventDeleteBtn.classList.remove('hidden');
                 eventDeleteForm.action = `${eventActionBase}/${id}`;
+                validateEventForm();
                 openEventModal();
-            }
-
-            function closeEventModal() {
-                eventModal.classList.remove('visible', 'opacity-100');
-                eventModal.classList.add('invisible', 'opacity-0');
-                eventModalContent.classList.remove('scale-100');
-                eventModalContent.classList.add('scale-95');
             }
 
             openEventBtn.addEventListener('click', openAddEventModal);
@@ -366,10 +402,11 @@
 
             eventItems.forEach(function(item) {
                 item.addEventListener('click', function() {
-                    openEditEventModal(this.dataset.eventId, this.dataset.eventTitle, this.dataset
-                        .eventDate);
+                    openEditEventModal(this.dataset.eventId, this.dataset.eventTitle, this.dataset.eventDate);
                 });
             });
+
+
         });
     </script>
 @endsection
